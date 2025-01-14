@@ -3,4 +3,3 @@ pandas
 matplotlib.pyplot
 numpy
 st_aggrid
-AgGrid
