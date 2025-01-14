@@ -1,9 +1,9 @@
 import streamlit as st
+import streamlit-aggrid as st_aggrid
 from st_aggrid import AgGrid
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-
 
 #Configuração de Página
 st.set_page_config(
