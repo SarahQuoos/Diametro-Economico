@@ -1,3 +1,5 @@
 streamlit
 pandas
 numpy
+pyplot
+st_aggrid
