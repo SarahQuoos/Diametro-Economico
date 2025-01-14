@@ -1,6 +1,6 @@
 import streamlit as st
-import streamlit-aggrid as st_aggrid
-from st_aggrid import AgGrid
+#import streamlit-aggrid as st_aggrid
+#from st_aggrid import AgGrid
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -186,9 +186,9 @@ def Botões():
             st.code(code, language="python")
               
     #if st.button("Banco de dados", type="primary"):
-    if st.checkbox("Banco de dados"):    
-            file = pd.read_excel('Banco de Dados.xlsx', sheet_name='Dados')
-            AgGrid(file)
+    #if st.checkbox("Banco de dados"):    
+            #file = pd.read_excel('Banco de Dados.xlsx', sheet_name='Dados')
+            #AgGrid(file)
 
 #------------------------------Acesso ao banco de dados--------------------------#
 
