@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-#Configuração de Página
+#-----------------------------------Configuração de Página-------------------------------------#
 st.set_page_config(
     page_title="Dimensionamento Diâmetro Econômico",
     layout="wide",
@@ -181,7 +181,7 @@ def Botões():
     
     #if st.button("Source Code", type="primary"):  
     if st.checkbox("Source Code"):
-            code = '''Código vai ficar aqui''' 
+            code = '''O Código do programa vai ficar aqui''' 
             st.code(code, language="python")
               
     #if st.button("Banco de dados", type="primary"):
@@ -225,4 +225,3 @@ elif M == 'PRVF':
     hfe, hle, hte, de = Economico()
     Resultado()
     Botões()
-        
