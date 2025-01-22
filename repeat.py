@@ -186,7 +186,7 @@ def Botões():
               
     #if st.button("Banco de dados", type="primary"):
     if st.checkbox("Banco de dados"):    
-            file = pd.read_excel('Banco de Dados.xlsx', sheet_name='Dados')
+            file = pd.read_excel('Banco de Dados.xlsx')
             AgGrid(file)
 
 #------------------------------Acesso ao banco de dados--------------------------#
