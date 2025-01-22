@@ -4,7 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-#-----------------------------------Configuração de Página-------------------------------------#
+
+#Configuração de Página
 st.set_page_config(
     page_title="Dimensionamento Diâmetro Econômico",
     layout="wide",
@@ -63,8 +64,7 @@ def Calculos():
     hm = hg + ht
                     
     #Rendimento global
-    nb = 0.60  #Temporário
-    ng = 0.73  #Temporário
+    ng = 0.70  #Temporário
                     
     #Potência requerida pela estação elevatória
     W = (9.8 * Q * hm)/ng
@@ -90,21 +90,25 @@ def Calculos():
     #Cd = (Pd1 + Md1) * L
                     
     #Coeficiente de atualização de energia
-    #Fa
+    #i= 0.12
+    #e = ?
+    #n = 30 
+    #Fa = (((1 + e)**n - (1 + i)**n)/((1 + e) - (1 + i)))*(1/((1 + i)**n))
                     
     #Custo total
     #Ct = Cd * L * ((9.81 * Q * hm * nb * p * Fa)/ng)
     
     #Botão mostrar resultados em forma de tabela
-    if st.checkbox("Tabela Calculos"):
+    if st.checkbox("Tabela Cálculos"):
             data_tab = {'Diametro interno': di, 'Area': A, 'Velocidade': U, 'Reynolds': Re, 'Fator de atrito': f,
                             'Perda de carga distribuída': hf, 'Perda de carga localizada': hl, 
                             'Perda de carga total': ht, 'Altura manométrica': hm, 'Potência requerida': W}
             tab = pd.DataFrame(data_tab)
             st.table(tab)
-    
-    return di, hf, hl, ht, W
+            
     #return Md, Cd, Pd, Ct
+    return di, hf, hl, ht, W
+    
             
 #------------------------Encontrando Valores Economicos--------------------------#        
         
@@ -119,6 +123,7 @@ def Economico():
         d1 = dn[i]
         if d1 == dnmin:
             de = dnmin
+            We = W[i]
             hfe = hf[i]
             hle = hl[i]
             hte = ht[i] 
@@ -147,35 +152,41 @@ def Economico():
         #else:
            #i = i + 1 
 
-    #return Cte, Mde, Cde, Pde, de
-        
-    #Gráfico linha
-    st.header("Potência Requerida x Diâmetro")
-    chart_data = {'Potencia Requerida': W, 'Diâmetro nominal': dn}
-    st.line_chart(chart_data, x="Diâmetro nominal", y="Potencia Requerida")
-    
-    return hfe, hle, hte, de
+    #return Cte, Mde, Cde, Pde, de    
+    return hfe, hle, hte, de, We
 
-#--------------------------Gráfico Pizza e Resultados----------------------------#
+#--------------------------Gráficos e Resultados----------------------------#
 
 def Resultado():
     
+    graf_1, graf_2 = st.columns(2)
+    
+    #Gráfico Linha
+    with graf_1:
+        st.markdown("### Potência Requerida x Diâmetro")
+        chart_data = {'Potencia Requerida': W, 'Diâmetro nominal': dn}
+        st.line_chart(chart_data, x="Diâmetro nominal", y="Potencia Requerida",height=500)
+    
     #Gráfico Pizza
-    labels = 'Perdas de carga distribuída', 'Perdas de carga localizada', 'Perda total'
-    sizes = [hfe, hle, hte]
-    fig1, ax1 = plt.subplots()
-    ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, normalize=True,)
-    st.pyplot(fig1)
-
+    with graf_2:
+        st.markdown("### Perdas de Carga")
+        labels = 'Perdas de carga distribuída', 'Perdas de carga localizada', 'Perda total'
+        sizes = [hfe, hle, hte]
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, normalize=True,)
+        st.pyplot(fig1)
+    
     #Tabela Resultados
-    chart_dataf = {'Diametro econômico': [de], 'Perdas de carga distribuída': [hfe],
-                   'Perdas de carga localizada': [hle], 'Perdas de carga total': [hte]}
-    tabf = pd.DataFrame(chart_dataf)
-    st.header("Resultados para o menor diametro")
-    st.table(tabf)
- 
-        
-#-----------------------------Gráficos e botões----------------------------------#
+    st.markdown("### Resultados para o menor diâmetro")
+    
+    tab1, tab2, tab3, tab4, tab5 = st.columns(5)
+    tab1.metric(label="Diâmetro Econômico", value=de,)
+    tab2.metric(label="Potência Requerida", value=f" {round(We,4)} ",)
+    tab3.metric(label="Perdas de carga distribuída", value=f" {round(hfe,4)} ",)
+    tab4.metric(label="Perdas de carga localizada", value=f" {round(hle,4)} ",)
+    tab5.metric(label="Perdas de carga total", value=f" {round(hte,4)} ",)
+    
+#-----------------------------------Botões---------------------------------------#
         
 def Botões(): 
     
@@ -203,25 +214,25 @@ def Banco():
     e = sheet.loc[0, 'Rugosidade [mm]']
     return di, dn, e
 
-#--------------------------------Escolha material--------------------------------#
+#--------------------------------Rotina do Programa------------------------------#
 
 if M == 'Ferro Fundido':
     di, dn, e = Banco()
     di, hf, hl, ht, W = Calculos()
-    hfe, hle, hte, de = Economico()
+    hfe, hle, hte, de, We = Economico()
     Resultado()
     Botões()
     
 elif M == 'PVC':
     di, dn, e = Banco()
     di, hf, hl, ht, W = Calculos()
-    hfe, hle, hte, de = Economico()
+    hfe, hle, hte, de, We = Economico()
     Resultado()
     Botões()
         
 elif M == 'PRVF':
     di, dn, e = Banco()
     di, hf, hl, ht, W = Calculos()
-    hfe, hle, hte, de = Economico()
+    hfe, hle, hte, de, We = Economico()
     Resultado()
     Botões()
