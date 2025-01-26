@@ -15,7 +15,7 @@ st.set_page_config(
         'About': "# Desenvolvido por Sarah Quoos e Edgar Silva. UTFPR, Curitiba, PR, 2025"}
     )
 
-#Título da Página
+#Título
 st.title("Dimensionamento de Diâmetro Econômico de Adutoras em Estações Elevatórias de Água")
 
 #Dados de Entrada
@@ -27,8 +27,21 @@ with st.sidebar:
     Namax = st.number_input('Cota do nível de água máximo no reservatório elevado em metros:', value=0)  
     M = st.selectbox("Material da tubulação?",("select","Ferro Fundido", "PVC", "PRVF"),)
 
-#-----------------------------------Cálculos-------------------------------------#
+#Acesso ao banco de dados
+def Banco():
+    sheet = pd.read_excel('Banco de Dados.xlsx', sheet_name=M)
+    #Diâmetro interno
+    diaux = sheet['Diâmetro interno'].tolist()
+    di = np.array(diaux)
+    #Diâmetro nominal
+    dnaux = sheet['Diâmetro nominal'].tolist()
+    dn = np.array(dnaux)
+    #Rugosidade
+    e = sheet.loc[0, 'Rugosidade [mm]']
+    return di, dn, e
 
+
+#Cálculos
 def Calculos():
     
     #Area
@@ -110,8 +123,7 @@ def Calculos():
     return di, hf, hl, ht, W
     
             
-#------------------------Encontrando Valores Economicos--------------------------#        
-        
+#Encontrando Valores Econômicos       
 def Economico():
     
     dnmin = min(dn) 
@@ -155,8 +167,7 @@ def Economico():
     #return Cte, Mde, Cde, Pde, de    
     return hfe, hle, hte, de, We
 
-#--------------------------Gráficos e Resultados----------------------------#
-
+#Gráficos e Resultados
 def Resultado():
     
     graf_1, graf_2 = st.columns(2)
@@ -186,8 +197,7 @@ def Resultado():
     tab4.metric(label="Perdas de carga localizada", value=f" {round(hle,4)} ",)
     tab5.metric(label="Perdas de carga total", value=f" {round(hte,4)} ",)
     
-#-----------------------------------Botões---------------------------------------#
-        
+#Botões    
 def Botões(): 
     
     #if st.button("Source Code", type="primary"):  
@@ -200,22 +210,9 @@ def Botões():
             file = pd.read_excel('Banco de Dados.xlsx', sheet_name='Dados')
             AgGrid(file)
 
-#------------------------------Acesso ao banco de dados--------------------------#
 
-def Banco():
-    sheet = pd.read_excel('Banco de Dados.xlsx', sheet_name=M)
-    #Diâmetro interno
-    diaux = sheet['Diâmetro interno'].tolist()
-    di = np.array(diaux)
-    #Diâmetro nominal
-    dnaux = sheet['Diâmetro nominal'].tolist()
-    dn = np.array(dnaux)
-    #Rugosidade
-    e = sheet.loc[0, 'Rugosidade [mm]']
-    return di, dn, e
 
-#--------------------------------Rotina do Programa------------------------------#
-
+#Rotina do Programa
 if M == 'Ferro Fundido':
     di, dn, e = Banco()
     di, hf, hl, ht, W = Calculos()
