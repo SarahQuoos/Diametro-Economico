@@ -77,38 +77,41 @@ def Calculos():
     hm = hg + ht
                     
     #Rendimento global
-    ng = 0.70  #Temporário
+    ng = 0.70
                     
     #Potência requerida pela estação elevatória
     W = (9.8 * Q * hm)/ng
                            
     #Volume de escavação 
-    #Pf = 
-    #Ve = (d + 2 * L + m * (d + Pf)) * (d + Pf) 
+    #Pf = Edgar
+    #Ve = (di + 2 * L + m * (di + Pf)) * (di + Pf) 
                     
     #Volume para aterro da vala
-    #Va = Ve - ((pi * d**2)/4)
+    #Va = Ve - ((pi * di**2)/4)
                     
     #Bota-fora
     #Vbf = 1.3 * ((pi * d**2)/4)
                     
     #Área de reposição pavimento
-    #Ar = 2 * m * (d + Pf) + 2 * L + d
+    #m = Inclinação da vala, Edgar
+    #Ar = 2 * m * (di + Pf) + 2 * L + d
                     
     #Custo de montagem
     #Md = (Ve * Pe) + (Va * Pa) + (Vbf * Pbf) + (Ar * Pr)
                     
     #Custo de Implementação
-    #Pd =
-    #Cd = (Pd1 + Md1) * L
+    #Pd = Considerar só o preço do tubo
+    #Cd = (Pd + Md) * L
                     
     #Coeficiente de atualização de energia
     #i= 0.12
-    #e = ?
+    #e = taxa de aumento de energia, Edgar
     #n = 30 
     #Fa = (((1 + e)**n - (1 + i)**n)/((1 + e) - (1 + i)))*(1/((1 + i)**n))
                     
     #Custo total
+    #Nb = número de horas, Edgar
+    #p = 
     #Ct = Cd * L * ((9.81 * Q * hm * nb * p * Fa)/ng)
     
     #Botão mostrar resultados em forma de tabela
@@ -209,8 +212,6 @@ def Botões():
     if st.checkbox("Banco de dados"):    
             file = pd.read_excel('Banco de Dados.xlsx', sheet_name='Dados')
             AgGrid(file)
-
-
 
 #Rotina do Programa
 if M == 'Ferro Fundido':
