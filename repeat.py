@@ -203,13 +203,15 @@ def Resultado():
 #Botões    
 def Botões(): 
     
-    #if st.button("Source Code", type="primary"):  
-    if st.checkbox("Source Code"):
+    bot_1, bot_2 = st.columns(2)
+
+    with bot_1:
+        if st.checkbox("Source Code"):
             code = '''O Código do programa vai ficar aqui''' 
             st.code(code, language="python")
-              
-    #if st.button("Banco de dados", type="primary"):
-    if st.checkbox("Banco de dados"):    
+    
+    with bot_2:
+        if st.checkbox("Banco de dados"):    
             file = pd.read_excel('Banco de Dados.xlsx', sheet_name='Dados')
             AgGrid(file)
 
