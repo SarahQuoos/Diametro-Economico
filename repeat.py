@@ -80,7 +80,7 @@ def Calculos():
     ng = 0.70
                     
     #Potência requerida pela estação elevatória
-    W = (9.8 * Q * hm)/ng
+    W = (9.8 * q * hm)/ng
                            
     #Volume de escavação 
     #Pf = Edgar
