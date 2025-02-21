@@ -388,7 +388,7 @@ elif M == 'PRVF':
     hfe, hle, hte, de, We = Economico()
     Resultado()
     Botões()''' 
-        st.code(code, language="python")
+            st.code(code, language="python")
     
     with bot_2:
         if st.checkbox("Banco de dados"):    
