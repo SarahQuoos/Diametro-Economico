@@ -177,13 +177,13 @@ def Resultado():
     
     #Gráfico Linha
     with graf_1:
-        st.markdown("### Potência Requerida x Diâmetro")
+        st.markdown("### Potência Requerida[W] x Diâmetro Nominal[mm]")
         chart_data = {'Potencia Requerida': W, 'Diâmetro nominal': dn}
         st.line_chart(chart_data, x="Diâmetro nominal", y="Potencia Requerida",height=500)
     
     #Gráfico Pizza
     with graf_2:
-        st.markdown("### Perdas de Carga")
+        st.markdown("### Relação entre Perdas de Carga")
         labels = 'Perdas de carga distribuída', 'Perdas de carga localizada', 'Perda total'
         sizes = [hfe, hle, hte]
         fig1, ax1 = plt.subplots()
@@ -195,10 +195,10 @@ def Resultado():
     
     tab1, tab2, tab3, tab4, tab5 = st.columns(5)
     tab1.metric(label="Diâmetro Econômico", value=de,)
-    tab2.metric(label="Potência Requerida", value=f" {round(We,4)} ",)
-    tab3.metric(label="Perdas de carga distribuída", value=f" {round(hfe,4)} ",)
-    tab4.metric(label="Perdas de carga localizada", value=f" {round(hle,4)} ",)
-    tab5.metric(label="Perdas de carga total", value=f" {round(hte,4)} ",)
+    tab2.metric(label="Potência Requerida", value=f" {round(We,2)} ",)
+    tab3.metric(label="Perdas de carga distribuída", value=f" {round(hfe,2)} ",)
+    tab4.metric(label="Perdas de carga localizada", value=f" {round(hle,2)} ",)
+    tab5.metric(label="Perdas de carga total", value=f" {round(hte,2)} ",)
     
 #Botões    
 def Botões(): 
