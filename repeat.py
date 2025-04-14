@@ -16,24 +16,60 @@ st.set_page_config(
 
 #Page Title
 st.title("Dimensionamento de Diâmetro Econômico de Adutoras em Estações Elevatórias de Água")
+st.markdown("###")
 
-#Access database rotine
-def Accessing_database():
+def Main():
+    ########Access database########
     sheet_material = pd.read_excel('Banco de Dados.xlsx', sheet_name=material)
 
+    #Dados diâmetro interno
     inner_diameter_aux = sheet_material['Diâmetro interno'].tolist()
     inner_diameter = np.array(inner_diameter_aux)
 
-    nominal_diameter_aux = sheet_material['Diâmetro nominal'].tolist()
+    #Dados diâmetro externo
+    external_diameter_aux = sheet_material['Diâmetro externo'].tolist()
+    external_diameter = np.array(external_diameter_aux)
+    
+    #Dados diâmetro nominal
+    nominal_diameter_aux = sheet_material['Diâmetro externo'].tolist()
     nominal_diameter = np.array(nominal_diameter_aux)
     
-    roughness = sheet_material.loc[0, 'Rugosidade [mm]']
-    return inner_diameter, nominal_diameter, roughness
-
-
-#Main rotine
-def Main():
+    #Dados b
+    trench_base_aux = sheet_material['Base vala'].tolist()
+    trench_base = np.array(trench_base_aux)
     
+    #Dados Pf
+    trench_length_aux = sheet_material['Profundidade vala'].tolist()
+    trench_length = np.array(trench_length_aux)
+    
+    #Dados h
+    #trench_height_aux = sheet_material['Altura vala'].tolist()
+    #trench_height = np.array(trench_height_aux)
+    
+    #Dados m
+    trench_ratio_aux = sheet_material['Proporção vala'].tolist()
+    trench_ratio = np.array(trench_ratio_aux)
+    
+    #Dados preço excavação
+    excavation_price_aux = sheet_material['Preço escavação [R$/m3]'].tolist()
+    excavation_price = np.array(excavation_price_aux)
+    
+    #Dados preço aterro
+    dig_price_aux = sheet_material['Preço do aterro [R$/m3]'].tolist()
+    dig_price = np.array(dig_price_aux)
+    
+    #Dados distância bota-fora
+    bt_distance_aux = sheet_material['Distância do bota-fora [km]'].tolist()
+    bt_distance = np.array(bt_distance_aux)
+    
+    #Dados preço transporte
+    transporte_price_aux = sheet_material['Preço do transporte [R$/(m3*km)]'].tolist()
+    transporte_price = np.array(transporte_price_aux)
+    
+    #Dados rugosidade
+    roughness = sheet_material.loc[0, 'Rugosidade [mm]']
+    
+    ########Início dos Cálculos########
     #Area
     pi = np.pi
     area = (pi * ((inner_diameter/1000)**2))/4 
@@ -72,22 +108,42 @@ def Main():
                     
     #Potência requerida pela estação elevatória
     required_power = (9.8*(flow/3600)*manometric_height)/global_efficiency
-                           
-          
-    #Encontrando Valores Econômicos       
-    min_nominal_diameter = min(nominal_diameter) 
-    tam = len(nominal_diameter)
-        
+    
+    #Volume de escavação 
+    diameter_meters = external_diameter/1000
+    excavation_volume = (diameter_meters + (trench_base - diameter_meters) + trench_ratio*(diameter_meters + trench_length)) * (diameter_meters + trench_length) 
+                    
+    #Vaterro [m²]
+    dig_volume = excavation_volume - ((pi * diameter_meters**2)/4)
+    
+    #Preço do aterro [R$/m]
+    dig_price_meter = dig_volume*dig_price
+    
+    #Preço da escavação [R$/m]
+    excavation_price_meter = excavation_volume*excavation_price
+              
+    #Bota-fora
+    bt_volume = 1.3 * ((pi * diameter_meters**2)/4)
+                    
+    #Preço bota-fora [R$/m]
+    bt_price_meter = bt_volume*transporte_price*bt_distance
+            
+    #Custo de montagem (sem area de reposição)
+    assembly_price = (excavation_volume*excavation_price_meter) + (dig_volume*dig_price_meter) + (bt_volume*bt_price_meter)
+    
+    #Encontrando Diâmetro Econômico       
+    min_assembly_price = min(assembly_price) 
+    tam = len(assembly_price)
+    
     i = 0
         
     while i <= tam:
-        d1 = nominal_diameter[i]
-        if d1 == min_nominal_diameter:
-            extenal_diameter = min_nominal_diameter
-            We = required_power[i]
-            hfe = major_pressure_loss[i]
-            hle = minor_pressure_loss[i]
-            hte = total_pressure_losses[i] 
+        if assembly_price[i] == min_assembly_price:
+            economic_diameter = nominal_diameter[i]
+            economic_dig_price = dig_price_meter[i]
+            economic_excavation_price = excavation_price_meter[i]
+            economic_bt_price = bt_price_meter[i]
+            
             break
         else:
             i = i + 1
@@ -97,37 +153,45 @@ def Main():
     
     #Gráfico Linha
     with line_chart:
-        st.markdown("### Potência Requerida[W] x Diâmetro Nominal[mm]")
-        chart_data = {'Potencia Requerida': required_power, 'Diâmetro nominal': nominal_diameter}
-        st.line_chart(chart_data, x="Diâmetro nominal", y="Potencia Requerida",height=500)
+        st.markdown("### Custo de montagem[R$/m] x Diâmetro Nominal[mm]")
+        chart_data = {'Custo de montagem': assembly_price, 'Diâmetro nominal': nominal_diameter}
+        st.line_chart(chart_data, x="Diâmetro nominal", y="Custo de montagem",height=500)
     
     #Gráfico Pizza
     with pizza_chart:
-        st.markdown("### Relação entre Perdas de Carga")
-        labels = 'Perdas de carga distribuída', 'Perdas de carga localizada', 'Perda total'
-        sizes = [hfe, hle, hte]
+        st.markdown("### Relação entre custos")
+        labels = 'Preço do aterro', 'Preço de excavação', 'Preço bota-fora'
+        sizes = [economic_dig_price, economic_excavation_price, economic_bt_price]
         fig1, ax1 = plt.subplots()
-        ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, normalize=True,)
+        ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=70, normalize=True,)
         st.pyplot(fig1)
-    
+        
     #Results table
-    st.markdown("### Resultados para o menor diâmetro")
+    st.markdown("### Resultados")
     
     tab1, tab2, tab3, tab4, tab5 = st.columns(5)
-    tab1.metric(label="Diâmetro Econômico", value=extenal_diameter,)
-    tab2.metric(label="Potência Requerida", value=f"{round(We,2)} ",)
-    tab3.metric(label="Perdas de carga distribuída", value=f" {round(hfe,2)} ",)
-    tab4.metric(label="Perdas de carga localizada", value=f" {round(hle,2)} ",)
-    tab5.metric(label="Perdas de carga total", value=f" {round(hte,2)} ",)
+    tab1.metric(label="Diâmetro Econômico [mm]", value=economic_diameter,)
+    tab2.metric(label="Preço do aterro [R$/m]", value=f"{round(economic_dig_price,2)} ",)
+    tab3.metric(label="Preço da excavação [R$/m]", value=f"{round(economic_excavation_price,2)} ",)
+    tab4.metric(label="Preço bota-fora [R$/m]", value=f"{round(economic_bt_price,2)} ",)
+    tab5.metric(label="Menor custo de montagem [R$/m]", value=f"{round(min_assembly_price,2)} ",)
+    st.markdown("###") 
     
     #Botões/Opções de visualização           
-    if st.checkbox("Mostrar tabela de cálculos"):
-        st.write(st.session_state.test)
-        data_table = {'Diametro interno': inner_diameter, 'Area': area, 'Velocidade': speed, 'Reynolds': reynolds, 'Fator de atrito': f,
-                      'Perda de carga distribuída': major_pressure_loss, 'Perda de carga localizada': minor_pressure_loss, 
-                      'Perda de carga total': total_pressure_losses, 'Altura manométrica': manometric_height, 'Potência requerida': required_power}
-        calculations_table = pd.DataFrame(data_table)
-        st.table(calculations_table)
+    #if st.checkbox("Mostrar tabela de cálculos"):
+    #st.write(st.session_state.test)
+        #data_table = {'Diametro interno': inner_diameter, 'Area': area, 'Velocidade': speed, 'Reynolds': reynolds, 'Fator de atrito': f,
+        #              'Perda de carga distribuída': major_pressure_loss, 'Perda de carga localizada': minor_pressure_loss, 
+        #              'Perda de carga total': total_pressure_losses, 'Altura manométrica': manometric_height, 'Potência requerida': required_power}
+    st.markdown("### Tabela")
+    
+    data_table = {'Diametro nominal': nominal_diameter, 'Volume de escavação': excavation_volume, 'Preço da escavação [R$/m]': excavation_price_meter,
+                  'Volume de aterro': dig_volume,'Preço do aterro [R$/m]':dig_price_meter,
+                  'Volume bota-fora': bt_volume, 'Preço bota-fora': bt_price_meter, 'Custo de montagem': assembly_price}   
+    calculations_table = pd.DataFrame(data_table)
+    st.table(calculations_table)
+        
+        
                           
 #Loop principal
 submit_button_check = 0
@@ -154,5 +218,4 @@ with st.sidebar:
                 st.rerun()
 
 if submit_button_check == 1:
-    inner_diameter, nominal_diameter, roughness = Accessing_database()
     Main()
