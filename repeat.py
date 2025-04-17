@@ -35,6 +35,10 @@ def Main():
     nominal_diameter_aux = sheet_material['Diâmetro externo'].tolist()
     nominal_diameter = np.array(nominal_diameter_aux)
     
+    #Dados preço da tubulação
+    pipe_cost_aux = sheet_material['Valor metro'].tolist()
+    pipe_cost = np.array(pipe_cost_aux)
+    
     #Dados b
     trench_base_aux = sheet_material['Base vala'].tolist()
     trench_base = np.array(trench_base_aux)
@@ -70,19 +74,16 @@ def Main():
     #Dados rugosidade
     roughness = sheet_material.loc[0, 'Rugosidade [mm]']
     
-    ########Início dos Cálculos########
-    #Area
+    ########Cálculos########
     pi = np.pi
     area = (pi * ((inner_diameter/1000)**2))/4 
                     
-    #Velocidade media
     speed = (flow/3600)/area
                     
     #Dados da agua
     water_specific_mass = 998 #massa específica [kg/m³]
-    water_dynamic_viscosity = 0.001 #viscosidade dinamica [m²/s]
+    water_dynamic_viscosity = 0.001 #viscosidade dinamica [Nm²/s]
                                       
-    #Número de Reynolds
     reynolds = (water_specific_mass*(inner_diameter/1000)*speed)/water_dynamic_viscosity
                         
     #Fator de atrito
@@ -90,7 +91,7 @@ def Main():
                         
     #Perdas de carga distribuída
     gravity = 9.81 #gravidade [m²/s]
-    major_pressure_loss = (f*length*speed**2)/((inner_diameter/1000)*2*gravity)
+    major_pressure_loss = f*((length*speed**2)/((inner_diameter/1000)*2*gravity))
                     
     #Perdas de carga localizada
     minor_pressure_loss = major_pressure_loss*0.1
@@ -101,99 +102,116 @@ def Main():
     #Cota do nível de água
     water_level = max_water_level - min_water_level
     
-    #Altura manométrica
+    #Altura manométrica*************
     manometric_height = total_pressure_losses + water_level
                     
-    #Rendimento global
+    #Rendimento global da estação
     global_efficiency = 0.70
                     
-    #Potência requerida pela estação elevatória
-    required_power = (9.8*(flow/3600)*manometric_height)/global_efficiency
+    #Potência requerida pela estação elevatória*********
+    required_power = (gravity*(flow/3600)*manometric_height)/global_efficiency
     
-    #Volume de escavação 
+    #Volume de escavação
     diameter_meters = external_diameter/1000
-    excavation_volume = (diameter_meters + (trench_base - diameter_meters) + trench_ratio*(diameter_meters + trench_length)) * (diameter_meters + trench_length) 
+    excavation_volume = (diameter_meters+(trench_base - diameter_meters)+trench_ratio*(diameter_meters + trench_length))*(diameter_meters + trench_length) 
                     
-    #Vaterro [m²]
+    #Volume do aterro
     dig_volume = excavation_volume - ((pi * diameter_meters**2)/4)
     
-    #Preço do aterro [R$/m]
+    #Preço do aterro
     dig_price_meter = dig_volume*dig_price
     
-    #Preço da escavação [R$/m]
+    #Preço da escavação
     excavation_price_meter = excavation_volume*excavation_price
               
     #Bota-fora
     bt_volume = 1.3 * ((pi * diameter_meters**2)/4)
                     
-    #Preço bota-fora [R$/m]
+    #Preço bota-fora
     bt_price_meter = bt_volume*transporte_price*bt_distance
             
-    #Custo de montagem (sem area de reposição)
-    assembly_price = (excavation_volume*excavation_price_meter) + (dig_volume*dig_price_meter) + (bt_volume*bt_price_meter)
+    #Custo de montagem
+    assembly_cost = excavation_price_meter + dig_price_meter + bt_price_meter
     
-    #Encontrando Diâmetro Econômico       
-    min_assembly_price = min(assembly_price) 
-    tam = len(assembly_price)
+    #Custo de implantação
+    implementation_cost = (pipe_cost + assembly_cost)*length
+    
+    #Número de horas de bombeamento
+    pump_work_hours = 21.0
+    
+    #Coeficiente de atualização da energia
+    Fa=0.16
+    
+    #Custo da energia elétrica
+    p=0.63
+    
+    #Custo total
+    total_cost = implementation_cost*length*((9.81*flow*(water_level+total_pressure_losses)*pump_work_hours*Fa*p)/global_efficiency)
+     
+    ########Encontrando Diâmetro Econômico########       
+    min_total_cost = min(total_cost) 
+    list_size = len(total_cost)
     
     i = 0
         
-    while i <= tam:
-        if assembly_price[i] == min_assembly_price:
+    while i <= list_size:
+        if total_cost[i] == min_total_cost:
             economic_diameter = nominal_diameter[i]
-            economic_dig_price = dig_price_meter[i]
-            economic_excavation_price = excavation_price_meter[i]
-            economic_bt_price = bt_price_meter[i]
-            
+            economic_implementation_cost = implementation_cost[i] 
+            #economic_dig_price = dig_price_meter[i]
+            #economic_excavation_price = excavation_price_meter[i]
+            #economic_bt_price = bt_price_meter[i]
             break
         else:
             i = i + 1
 
-    #Gráficos e Resultados
-    line_chart, pizza_chart = st.columns(2)
+    ########Gráficos e Resultados########
+    #line_chart, pizza_chart = st.columns(2)
     
     #Gráfico Linha
-    with line_chart:
-        st.markdown("### Custo de montagem[R$/m] x Diâmetro Nominal[mm]")
-        chart_data = {'Custo de montagem': assembly_price, 'Diâmetro nominal': nominal_diameter}
-        st.line_chart(chart_data, x="Diâmetro nominal", y="Custo de montagem",height=500)
+    #with line_chart:
+    st.markdown("### Custo Total[R$/m] x Diâmetro Nominal[mm]")
+    chart_data = {'Custo Total': total_cost, 'Diâmetro nominal': nominal_diameter}
+    st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
     
     #Gráfico Pizza
-    with pizza_chart:
-        st.markdown("### Relação entre custos")
-        labels = 'Preço do aterro', 'Preço de excavação', 'Preço bota-fora'
-        sizes = [economic_dig_price, economic_excavation_price, economic_bt_price]
-        fig1, ax1 = plt.subplots()
-        ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=70, normalize=True,)
-        st.pyplot(fig1)
+    #with pizza_chart:
+     #   st.markdown("### Relação entre custos")
+     #   labels = 'Preço do aterro', 'Preço de excavação', 'Preço bota-fora'
+     #   sizes = [economic_dig_price, economic_excavation_price, economic_bt_price]
+     #   fig1, ax1 = plt.subplots()
+     #   ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=70, normalize=True,)
+     #   st.pyplot(fig1)
         
     #Results table
     st.markdown("### Resultados")
     
-    tab1, tab2, tab3, tab4, tab5 = st.columns(5)
-    tab1.metric(label="Diâmetro Econômico [mm]", value=economic_diameter,)
-    tab2.metric(label="Preço do aterro [R$/m]", value=f"{round(economic_dig_price,2)} ",)
-    tab3.metric(label="Preço da excavação [R$/m]", value=f"{round(economic_excavation_price,2)} ",)
-    tab4.metric(label="Preço bota-fora [R$/m]", value=f"{round(economic_bt_price,2)} ",)
-    tab5.metric(label="Menor custo de montagem [R$/m]", value=f"{round(min_assembly_price,2)} ",)
+    tab1, tab2, tab3 = st.columns(3)
+    tab1.metric(label="Diâmetro Nominal Econômico [mm]", value=economic_diameter,)
+    tab2.metric(label="Custo de Implementação[R$]", value=f"{round(economic_implementation_cost,2)} ",)
+    tab3.metric(label="Custo Total [R$/m]", value=f"{round(min_total_cost,2)} ",)
     st.markdown("###") 
     
-    #Botões/Opções de visualização           
+    #Visualização da tabela           
     #if st.checkbox("Mostrar tabela de cálculos"):
     #st.write(st.session_state.test)
-        #data_table = {'Diametro interno': inner_diameter, 'Area': area, 'Velocidade': speed, 'Reynolds': reynolds, 'Fator de atrito': f,
-        #              'Perda de carga distribuída': major_pressure_loss, 'Perda de carga localizada': minor_pressure_loss, 
-        #              'Perda de carga total': total_pressure_losses, 'Altura manométrica': manometric_height, 'Potência requerida': required_power}
     st.markdown("### Tabela")
     
-    data_table = {'Diametro nominal': nominal_diameter, 'Volume de escavação': excavation_volume, 'Preço da escavação [R$/m]': excavation_price_meter,
-                  'Volume de aterro': dig_volume,'Preço do aterro [R$/m]':dig_price_meter,
-                  'Volume bota-fora': bt_volume, 'Preço bota-fora': bt_price_meter, 'Custo de montagem': assembly_price}   
+    #data_table = {'Diametro interno': inner_diameter, 'Diametro nominal': nominal_diameter,'Area': area, 'Velocidade': speed, 'Reynolds': reynolds, 
+    #              'Fator de atrito': f,'Perda de carga distribuída': major_pressure_loss, 'Perda de carga localizada': minor_pressure_loss,
+    #              'Perda de carga total': total_pressure_losses, 'Altura manométrica': manometric_height, 'Potência requerida': required_power,
+    #              'Volume de escavação': excavation_volume, 'Preço da escavação [R$/m]': excavation_price_meter,
+    #              'Volume de aterro': dig_volume,'Preço do aterro [R$/m]':dig_price_meter,'Volume bota-fora': bt_volume,'Preço bota-fora': bt_price_meter}
+    data_table = {'Diametro interno': inner_diameter, 'Diametro nominal': nominal_diameter,'Area': area, 'Velocidade': speed, 'Reynolds': reynolds, 
+                  'Fator de atrito': f, 'Diametro nominal': nominal_diameter,'Perda de carga distribuída': major_pressure_loss, 
+                  'Perda de carga localizada': minor_pressure_loss,
+                  'Perda de carga total': total_pressure_losses, 'Nivel agua': water_level, 'Custo de montagem': assembly_cost,
+                  'Custo tubo': pipe_cost, 'Custo de implementação': implementation_cost, 'Custo total': total_cost} 
+                
     calculations_table = pd.DataFrame(data_table)
     st.table(calculations_table)
         
-        
-                          
+                             
 #Loop principal
 submit_button_check = 0
 with st.sidebar:
