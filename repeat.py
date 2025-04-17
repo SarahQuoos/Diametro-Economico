@@ -134,7 +134,7 @@ def Main():
     assembly_cost = excavation_price_meter + dig_price_meter + bt_price_meter
     
     #Custo de implantação
-    implementation_cost = (pipe_cost + assembly_cost)*length
+    implementation_cost = (pipe_cost + assembly_cost)
     
     #Número de horas de bombeamento
     pump_work_hours = 21.0
@@ -146,8 +146,9 @@ def Main():
     p=0.63
     
     #Custo total
-    total_cost = implementation_cost*length*((9.81*flow*(water_level+total_pressure_losses)*pump_work_hours*Fa*p)/global_efficiency)
-     
+    total_cost_meter = implementation_cost*((9.81*flow*(water_level+total_pressure_losses)*pump_work_hours*Fa*p)/global_efficiency)
+    total_cost = total_cost_meter*length
+    
     ########Encontrando Diâmetro Econômico########       
     min_total_cost = min(total_cost) 
     list_size = len(total_cost)
@@ -171,7 +172,7 @@ def Main():
     #Gráfico Linha
     #with line_chart:
     st.markdown("### Custo Total[R$/m] x Diâmetro Nominal[mm]")
-    chart_data = {'Custo Total': total_cost, 'Diâmetro nominal': nominal_diameter}
+    chart_data = {'Custo Total': total_cost_meter, 'Diâmetro nominal': nominal_diameter}
     st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
     
     #Gráfico Pizza
