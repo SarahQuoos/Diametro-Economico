@@ -189,8 +189,8 @@ def Main():
     
     tab1, tab2, tab3 = st.columns(3)
     tab1.metric(label="Diâmetro Nominal Econômico [mm]", value=economic_diameter,)
-    tab2.metric(label="Custo de Implementação[R$]", value=f"{round(economic_implementation_cost,2)} ",)
-    tab3.metric(label="Custo Total [R$/m]", value=f"{round(min_total_cost,2)} ",)
+    tab2.metric(label="Custo de Implementação[R$/m]", value=f"{round(economic_implementation_cost,2)} ",)
+    tab3.metric(label="Custo Total [R$]", value=f"{round(min_total_cost,2)} ",)
     st.markdown("###") 
     
     #Visualização da tabela           
