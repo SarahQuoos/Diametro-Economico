@@ -169,7 +169,7 @@ def Main():
     
     #Gráfico Linha
     #with line_chart:
-    st.markdown("### Custo Total x Diâmetro Nominal")
+    st.markdown("### Custo Total [R$/m] x Diâmetro Nominal [mm]")
     chart_data = {'Diâmetro nominal': nominal_diameter,'Custo Total': total_cost_meter}
     st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
         
@@ -188,7 +188,7 @@ def Main():
     if st.checkbox("Mostrar tabela de cálculos"):
         st.write(st.session_state.test)
         
-    st.markdown("### Tabela")
+    st.markdown("### Tabela de Resultados")
     
     data_table = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Area': area, 'Velocidade': speed, 
                   'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de carga distribuída': major_pressure_loss,
