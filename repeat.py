@@ -170,8 +170,8 @@ def Main():
     #Gráfico Linha
     #with line_chart:
     st.markdown("### Custo Total x Diâmetro Nominal")
-    chart_data = {'Diâmetro nominal[mm]': nominal_diameter,'Custo Total[R$/m]': total_cost_meter}
-    st.line_chart(chart_data, x="Diâmetro nominal[mm]", y="Custo Total[R$/m]",height=500)
+    chart_data = {'Diâmetro nominal': nominal_diameter,'Custo Total': total_cost_meter}
+    st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
         
     #Results table
     st.markdown("### Resultado")
