@@ -156,7 +156,7 @@ def Main():
     aux = 0
     
     while aux <= list_size:
-        if total_cost[i] == min_total_cost:
+        if total_cost[aux] == min_total_cost:
             economic_diameter = nominal_diameter[aux]
             economic_assembly_cost = assembly_cost[aux]
             economic_implementation_cost = implementation_cost[aux]
