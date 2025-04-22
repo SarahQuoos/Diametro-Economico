@@ -16,11 +16,11 @@ st.set_page_config(
     )
 
 #Page Title
-st.title("Dimensionamento de Diâmetro Econômico de Adutoras em Estações Elevatórias de Água")
+st.title("Dimensionamento de Diâmetro Econômico")
 st.markdown("###")
 
 def Main():
-    ########Access database########
+    #Accessing database
     sheet_material = pd.read_excel('Banco de Dados.xlsx', sheet_name=material)
 
     #Dados diâmetro interno
@@ -84,6 +84,7 @@ def Main():
     water_specific_mass = 998 #massa específica [kg/m³]
     water_dynamic_viscosity = 0.001 #viscosidade dinamica [Nm²/s]
                                       
+    #Número de reynolds
     reynolds = (water_specific_mass*(inner_diameter/1000)*speed)/water_dynamic_viscosity
                         
     #Fator de atrito
@@ -143,77 +144,62 @@ def Main():
     Fa=0.16
     
     #Custo da energia elétrica
-    p=0.63
+    p=0.75
     
     #Custo total
     total_cost_meter = implementation_cost*((9.81*flow*(water_level+total_pressure_losses)*pump_work_hours*Fa*p)/global_efficiency)
     total_cost = total_cost_meter*length
     
-    ########Encontrando Diâmetro Econômico########       
+    #Finding Economic diameter       
     min_total_cost = min(total_cost) 
-    list_size = len(total_cost)
+    list_size = len(total_cost) 
+    aux = 0
     
-    i = 0
-        
-    while i <= list_size:
+    while aux <= list_size:
         if total_cost[i] == min_total_cost:
-            economic_diameter = nominal_diameter[i]
-            economic_implementation_cost = implementation_cost[i] 
-            #economic_dig_price = dig_price_meter[i]
-            #economic_excavation_price = excavation_price_meter[i]
-            #economic_bt_price = bt_price_meter[i]
+            economic_diameter = nominal_diameter[aux]
+            economic_assembly_cost = assembly_cost[aux]
+            economic_implementation_cost = implementation_cost[aux]
             break
         else:
-            i = i + 1
+            aux = aux + 1
 
     ########Gráficos e Resultados########
     #line_chart, pizza_chart = st.columns(2)
     
     #Gráfico Linha
     #with line_chart:
-    st.markdown("### Custo Total[R$/m] x Diâmetro Nominal[mm]")
+    st.markdown("### Custo Total x Diâmetro Nominal")
     chart_data = {'Custo Total': total_cost_meter, 'Diâmetro nominal': nominal_diameter}
-    st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
-    
-    #Gráfico Pizza
-    #with pizza_chart:
-     #   st.markdown("### Relação entre custos")
-     #   labels = 'Preço do aterro', 'Preço de excavação', 'Preço bota-fora'
-     #   sizes = [economic_dig_price, economic_excavation_price, economic_bt_price]
-     #   fig1, ax1 = plt.subplots()
-     #   ax1.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=70, normalize=True,)
-     #   st.pyplot(fig1)
+    st.line_chart(chart_data, x="Diâmetro nominal [mm]", y="Custo Total [R$/m]",height=500)
         
     #Results table
-    st.markdown("### Resultados")
+    st.markdown("### Resultado")
     
-    tab1, tab2, tab3 = st.columns(3)
+    tab1, tab2, tab3, tab4 = st.columns(4)
     tab1.metric(label="Diâmetro Nominal Econômico [mm]", value=economic_diameter,)
-    tab2.metric(label="Custo de Implementação[R$/m]", value=f"{round(economic_implementation_cost,2)} ",)
-    tab3.metric(label="Custo Total [R$]", value=f"{round(min_total_cost,2)} ",)
+    tab2.metric(label="Custo de Montagem [R$/m]", value=f"{round(economic_assembly_cost,2)} ",)
+    tab3.metric(label="Custo de Implementação [R$/m]", value=f"{round(economic_implementation_cost,2)} ",)
+    tab4.metric(label="Custo Total [R$]", value=f"{round(min_total_cost,2)} ",)
+
     st.markdown("###") 
     
-    #Visualização da tabela           
-    #if st.checkbox("Mostrar tabela de cálculos"):
-    #st.write(st.session_state.test)
+    #Calculations table view          
+    if st.checkbox("Mostrar tabela de cálculos"):
+        st.write(st.session_state.test)
+        
     st.markdown("### Tabela")
     
-    #data_table = {'Diametro interno': inner_diameter, 'Diametro nominal': nominal_diameter,'Area': area, 'Velocidade': speed, 'Reynolds': reynolds, 
-    #              'Fator de atrito': f,'Perda de carga distribuída': major_pressure_loss, 'Perda de carga localizada': minor_pressure_loss,
-    #              'Perda de carga total': total_pressure_losses, 'Altura manométrica': manometric_height, 'Potência requerida': required_power,
-    #              'Volume de escavação': excavation_volume, 'Preço da escavação [R$/m]': excavation_price_meter,
-    #              'Volume de aterro': dig_volume,'Preço do aterro [R$/m]':dig_price_meter,'Volume bota-fora': bt_volume,'Preço bota-fora': bt_price_meter}
-    data_table = {'Diametro interno': inner_diameter, 'Diametro nominal': nominal_diameter,'Area': area, 'Velocidade': speed, 'Reynolds': reynolds, 
-                  'Fator de atrito': f, 'Diametro nominal': nominal_diameter,'Perda de carga distribuída': major_pressure_loss, 
-                  'Perda de carga localizada': minor_pressure_loss,
-                  'Perda de carga total': total_pressure_losses, 'Nivel agua': water_level, 'Custo de montagem': assembly_cost,
-                  'Custo tubo': pipe_cost, 'Custo de implementação': implementation_cost, 'Custo total': total_cost} 
-                
+    data_table = {'Area': area, 'Velocidade': speed, 'Reynolds': reynolds, 'Fator de atrito': f,'Perda de carga distribuída': major_pressure_loss,
+                  'Perda de carga localizada': minor_pressure_loss,'Perda de carga total': total_pressure_losses, 'Potência requerida': required_power,
+                  'Volume de escavação': excavation_volume,'Preço da escavação [R$/m]': excavation_price_meter,'Volume de aterro': dig_volume,
+                  'Preço do aterro [R$/m]':dig_price_meter,'Volume bota-fora': bt_volume,'Preço bota-fora': bt_price_meter, 
+                  'Nivel agua': water_level, 'Custo de montagem': assembly_cost,'Custo tubo': pipe_cost, 
+                  'Custo de implementação': implementation_cost, 'Custo total': total_cost}
     calculations_table = pd.DataFrame(data_table)
     st.table(calculations_table)
-        
-                             
-#Loop principal
+                            
+#Main Loop
 submit_button_check = 0
 with st.sidebar:
     st.title("Dados de entrada")
