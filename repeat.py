@@ -190,9 +190,11 @@ def Main():
         
     st.markdown("### Tabela")
     
-    data_table = {'Area': area, 'Velocidade': speed, 'Reynolds': reynolds, 'Fator de atrito': f,'Perda de carga distribuída': major_pressure_loss,
-                  'Perda de carga localizada': minor_pressure_loss,'Perda de carga total': total_pressure_losses, 'Potência requerida': required_power,
-                  'Volume de escavação': excavation_volume,'Preço da escavação [R$/m]': excavation_price_meter,'Volume de aterro': dig_volume,
+    data_table = {'Diâmetro Interno': inner_diameter,'Diâmetro Nominal': nominal_diameter,'Area': area, 'Velocidade': speed, 
+                  'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de carga distribuída': major_pressure_loss,
+                  'Perda de carga localizada': minor_pressure_loss, 'Perda de carga total': total_pressure_losses,
+                  'Potência requerida': required_power, 'Volume de escavação': excavation_volume,
+                  'Preço da escavação [R$/m]': excavation_price_meter,'Volume de aterro': dig_volume,
                   'Preço do aterro [R$/m]':dig_price_meter,'Volume bota-fora': bt_volume,'Preço bota-fora': bt_price_meter, 
                   'Nivel agua': water_level, 'Custo de montagem': assembly_cost,'Custo tubo': pipe_cost, 
                   'Custo de implementação': implementation_cost, 'Custo total': total_cost}
