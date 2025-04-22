@@ -190,7 +190,7 @@ def Main():
         
     st.markdown("### Tabela")
     
-    data_table = {'Diâmetro Interno': inner_diameter,'Diâmetro Nominal': nominal_diameter,'Area': area, 'Velocidade': speed, 
+    data_table = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Area': area, 'Velocidade': speed, 
                   'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de carga distribuída': major_pressure_loss,
                   'Perda de carga localizada': minor_pressure_loss, 'Perda de carga total': total_pressure_losses,
                   'Potência requerida': required_power, 'Volume de escavação': excavation_volume,
