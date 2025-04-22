@@ -31,7 +31,7 @@ def Main():
     external_diameter = np.array(external_diameter_aux)
     
     #Dados diâmetro nominal
-    nominal_diameter_aux = sheet_material['Diâmetro externo'].tolist()
+    nominal_diameter_aux = sheet_material['Diâmetro nominal'].tolist()
     nominal_diameter = np.array(nominal_diameter_aux)
     
     #Dados preço da tubulação
