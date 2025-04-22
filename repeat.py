@@ -17,7 +17,6 @@ st.set_page_config(
 
 #Page Title
 st.title("Dimensionamento de Diâmetro Econômico")
-st.markdown("###")
 
 def Main():
     #Accessing database
@@ -169,7 +168,7 @@ def Main():
     
     #Gráfico Linha
     #with line_chart:
-    st.markdown("### Custo Total [R$/m] x Diâmetro Nominal [mm]")
+    st.markdown("### Gráfico: Custo Total [R$/m] x Diâmetro Nominal [mm]")
     chart_data = {'Diâmetro nominal': nominal_diameter,'Custo Total': total_cost_meter}
     st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
         
