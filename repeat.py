@@ -23,8 +23,8 @@ def Main():
     sheet_material = pd.read_excel('Banco de Dados.xlsx', sheet_name=material)
 
     #Dados diâmetro interno
-    inner_diameter_aux = np.array(sheet_material['Diâmetro interno'].tolist())
-    #inner_diameter = np.array(inner_diameter_aux)
+    inner_diameter_aux = sheet_material['Diâmetro interno'].tolist()
+    inner_diameter = np.array(inner_diameter_aux)
 
     #Dados diâmetro externo
     external_diameter_aux = sheet_material['Diâmetro externo'].tolist()
@@ -90,7 +90,7 @@ def Main():
     f = (-1.8*np.log10(((roughness/inner_diameter)/3.7)**1.11 + (6.9/reynolds)))**-2
                         
     #Perdas de carga distribuída
-    gravity = 9.81 #gravidade [m²/s]
+    gravity = 9.81
     major_pressure_loss = f*((length*speed**2)/((inner_diameter/1000)*2*gravity))
                     
     #Perdas de carga localizada
@@ -164,10 +164,7 @@ def Main():
             aux = aux + 1
 
     ########Gráficos e Resultados########
-    #line_chart, pizza_chart = st.columns(2)
-    
-    #Gráfico Linha
-    #with line_chart:
+    #Line Chart
     st.markdown("### Gráfico: Custo Total [R$/m] x Diâmetro Nominal [mm]")
     chart_data = {'Diâmetro nominal': nominal_diameter,'Custo Total': total_cost_meter}
     st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
@@ -189,16 +186,21 @@ def Main():
         
     st.markdown("### Tabela de Resultados")
     
-    data_table = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Area': area, 'Velocidade': speed, 
-                  'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de carga distribuída': major_pressure_loss,
-                  'Perda de carga localizada': minor_pressure_loss, 'Perda de carga total': total_pressure_losses,
-                  'Potência requerida': required_power, 'Volume de escavação': excavation_volume,
-                  'Preço da escavação [R$/m]': excavation_price_meter,'Volume de aterro': dig_volume,
-                  'Preço do aterro [R$/m]':dig_price_meter,'Volume bota-fora': bt_volume,'Preço bota-fora': bt_price_meter, 
-                  'Nivel agua': water_level, 'Custo de montagem': assembly_cost,'Custo tubo': pipe_cost, 
-                  'Custo de implementação': implementation_cost, 'Custo total': total_cost}
-    calculations_table = pd.DataFrame(data_table)
-    st.table(calculations_table)
+    data_table = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Área': area, 'Velocidade': speed, 
+                  'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de Carga Distribuída': major_pressure_loss,
+                  'Perda de carga localizada': minor_pressure_loss, 'Perda de Carga Total': total_pressure_losses,
+                  'Potência Requerida': required_power, 'Volume de Escavação': excavation_volume,
+                  'Preço da Escavação [R$/m]': excavation_price_meter,'Volume de Aterro': dig_volume,
+                  'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora': bt_volume,'Preço Bota-Fora': bt_price_meter, 
+                  'Nivel Água': water_level, 'Custo de Montagem': assembly_cost,'Custo Tubulação': pipe_cost, 
+                  'Custo de Implantação': implementation_cost, 'Custo Total do Projeto': total_cost}
+   
+    data = {'Columns': ["Diâmetro Nominal", "Diâmetro Interno", "Área", "Velocidade"],
+            'Values': [nominal_diameter, inner_diameter, area, speed]
+    
+    calculations_table = pd.DataFrame(data)
+    formatted_table = calculations_table.style.format({"Values": "{:.2f}".format})
+    st.table(formatted_table)
                             
 #Main Loop
 submit_button_check = 0
