@@ -137,7 +137,7 @@ def Main():
     implementation_cost = (pipe_cost + assembly_cost)
     
     #Número de horas de bombeamento
-    pump_work_hours = 21.0
+    pump_work_hours = 5840.0
     
     #Coeficiente de atualização da energia
     Fa=0.16
