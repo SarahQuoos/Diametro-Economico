@@ -23,8 +23,8 @@ def Main():
     sheet_material = pd.read_excel('Banco de Dados.xlsx', sheet_name=material)
 
     #Dados diâmetro interno
-    inner_diameter_aux = sheet_material['Diâmetro interno'].tolist()
-    inner_diameter = np.array(inner_diameter_aux)
+    inner_diameter_aux = np.array(sheet_material['Diâmetro interno'].tolist())
+    #inner_diameter = np.array(inner_diameter_aux)
 
     #Dados diâmetro externo
     external_diameter_aux = sheet_material['Diâmetro externo'].tolist()
