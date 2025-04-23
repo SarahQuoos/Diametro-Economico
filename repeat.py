@@ -196,7 +196,7 @@ def Main():
                   'Custo de Implantação': implementation_cost, 'Custo Total do Projeto': total_cost}
    
     data = {'Columns': ["Diâmetro Nominal", "Diâmetro Interno", "Área", "Velocidade"],
-            'Values': [nominal_diameter, inner_diameter, area, speed]
+            'Values': [nominal_diameter, inner_diameter, area, speed]}
     
     calculations_table = pd.DataFrame(data)
     formatted_table = calculations_table.style.format({"Values": "{:.2f}".format})
