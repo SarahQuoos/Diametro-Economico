@@ -194,13 +194,9 @@ def Main():
                   'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora': bt_volume,'Preço Bota-Fora': bt_price_meter, 
                   'Nivel Água': water_level, 'Custo de Montagem': assembly_cost,'Custo Tubulação': pipe_cost, 
                   'Custo de Implantação': implementation_cost, 'Custo Total do Projeto': total_cost}
-   
-    data = {'Columns': ["Diâmetro Nominal", "Diâmetro Interno", "Área", "Velocidade"],
-            'Values': [nominal_diameter, inner_diameter, area, speed]}
     
-    calculations_table = pd.DataFrame(data)
-    formatted_table = calculations_table.style.format({"Values": "{:.2f}".format})
-    st.table(formatted_table)
+    calculations_table = pd.DataFrame(data_table)
+    st.table(calculations_table)
                             
 #Main Loop
 submit_button_check = 0
