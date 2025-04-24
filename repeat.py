@@ -76,7 +76,7 @@ def Main():
     water_level = max_water_level - min_water_level
     manometric_height = total_pressure_losses + water_level
     global_efficiency = 0.75
-    required_power = (gravity*(flow/3600)*manometric_height)/global_efficiency
+    required_power = (9.81y*(flow/3600)*manometric_height)/global_efficiency
     
     diameter_meters = external_diameter/1000
     excavation_volume = (diameter_meters+(trench_base - diameter_meters)+trench_ratio*(diameter_meters + trench_length))*(diameter_meters + trench_length) 
