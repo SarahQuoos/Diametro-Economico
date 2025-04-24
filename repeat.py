@@ -119,7 +119,7 @@ def Main():
     #Line Chart
     st.markdown("### Custo Total [R$/m] x Diâmetro Nominal [mm] ###")
     chart_data = {'Diâmetro nominal': nominal_diameter,'Custo Total': total_cost_meter}
-    st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
+    st.line_chart(chart_data, x="Diâmetro nominal [mm]", y="Custo Total [R$/m]",height=500)
         
     #Results table
     st.markdown("### Resultado")
