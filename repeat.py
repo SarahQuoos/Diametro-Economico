@@ -125,7 +125,7 @@ def Main():
     st.markdown("### Resultado")
     
     tab1, tab2 = st.columns(2)
-    tab1.metric(label="Diâmetro Econômico [mm]", value=economic_diameter,)
+    tab1.metric(label="Diâmetro Econômico", value=economic_diameter, "mm")
     tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R${:,.2f}'.format(economic_total_cost_meter)} ",)
 
     st.markdown("###") 
