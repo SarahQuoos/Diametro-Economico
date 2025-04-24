@@ -146,7 +146,7 @@ def Main():
     rounded_table = np.round(calculations_table,decimals=2) 
 
     with st.expander("Visualizar Tabela de Resultados"):
-        st.dataframe(calculations_table.style.applymap(lambda _: "background-color: CornflowerBlue;", subset=([aux], slice(None))))
+        st.dataframe(rounded_table.style.applymap(lambda _: "background-color: Red;", subset=([aux], slice(None))))
         #st.table(rounded_table)
               
 #Main Loop
