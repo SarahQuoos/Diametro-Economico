@@ -234,6 +234,5 @@ if submit_button_check == 1:
     
 #Botão visualizar tabela
 if st.checkbox("Mostrar tabela de cálculos"):
-    st.write(x)
     calculations_table = pd.DataFrame(x)
     st.table(calculations_table)
