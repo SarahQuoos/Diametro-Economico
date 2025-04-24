@@ -102,7 +102,7 @@ def Main():
     #Cota do nível de água
     water_level = max_water_level - min_water_level
     
-    #Altura manométrica*************
+    #Altura manométrica
     manometric_height = total_pressure_losses + water_level
                     
     #Rendimento global da estação
@@ -137,17 +137,20 @@ def Main():
     implementation_cost = (pipe_cost + assembly_cost)
     
     #Número de horas de bombeamento
-    pump_work_hours = 5840.0
+    pump_work_hours = 7665.0
     
     #Coeficiente de atualização da energia
-    Fa=0.16
+    i= 0.12
+    e = 0.06
+    n = 20 
+    Fa = (((1 + e)**n - (1 + i)**n)/((1 + e) - (1 + i)))*(1/((1 + i)**n))
     
     #Custo da energia elétrica
     p=0.75
     
     #Custo total
-    total_cost_meter = implementation_cost*((9.81*flow*(water_level+total_pressure_losses)*pump_work_hours*Fa*p)/global_efficiency)
-    total_cost = total_cost_meter*length
+    total_cost = (implementation_cost*length)+((9.81*(flow/3600)*manometric_height*pump_work_hours*Fa*p)/global_efficiency)
+    total_cost_meter = total_cost/length
     
     #Finding Economic diameter       
     min_total_cost = min(total_cost) 
@@ -159,6 +162,7 @@ def Main():
             economic_diameter = nominal_diameter[aux]
             economic_assembly_cost = assembly_cost[aux]
             economic_implementation_cost = implementation_cost[aux]
+            economic_total_cost_meter = total_cost_meter[aux]
             break
         else:
             aux = aux + 1
@@ -172,20 +176,17 @@ def Main():
     #Results table
     st.markdown("### Resultado")
     
-    tab1, tab2, tab3, tab4 = st.columns(4)
+    tab1, tab2, tab3, tab4, tab5 = st.columns(5)
     tab1.metric(label="Diâmetro Nominal Econômico [mm]", value=economic_diameter,)
     tab2.metric(label="Custo de Montagem [R$/m]", value=f"{round(economic_assembly_cost,2)} ",)
     tab3.metric(label="Custo de Implementação [R$/m]", value=f"{round(economic_implementation_cost,2)} ",)
+    tab4.metric(label="Custo Total [R$/m]", value=f"{round(economic_total_cost_meter,2)} ",)
     tab4.metric(label="Custo Total [R$]", value=f"{round(min_total_cost,2)} ",)
 
     st.markdown("###") 
     
-    #Calculations table view          
-    if st.checkbox("Mostrar tabela de cálculos"):
-        st.write(st.session_state.test)
-        
+    #Calculations table view
     st.markdown("### Tabela de Resultados")
-    
     data_table = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Área': area, 'Velocidade': speed, 
                   'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de Carga Distribuída': major_pressure_loss,
                   'Perda de carga localizada': minor_pressure_loss, 'Perda de Carga Total': total_pressure_losses,
@@ -193,11 +194,12 @@ def Main():
                   'Preço da Escavação [R$/m]': excavation_price_meter,'Volume de Aterro': dig_volume,
                   'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora': bt_volume,'Preço Bota-Fora': bt_price_meter, 
                   'Nivel Água': water_level, 'Custo de Montagem': assembly_cost,'Custo Tubulação': pipe_cost, 
-                  'Custo de Implantação': implementation_cost, 'Custo Total do Projeto': total_cost}
+                  'Custo de Implantação': implementation_cost, 'Coeficiente de Atualização da Energia': Fa,
+                  'Custo Total por Metro': total_cost_meter, 'Custo Total do Projeto': total_cost}
     
     calculations_table = pd.DataFrame(data_table)
     st.table(calculations_table)
-                            
+              
 #Main Loop
 submit_button_check = 0
 with st.sidebar:
@@ -224,3 +226,8 @@ with st.sidebar:
 
 if submit_button_check == 1:
     Main()
+
+#Botão visualizar tabela
+if st.checkbox("Mostrar tabela de cálculos"):
+    st.write(st.session_state.test)
+    st.table(calculations_table)
