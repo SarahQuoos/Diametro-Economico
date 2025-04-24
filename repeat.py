@@ -183,7 +183,7 @@ def Main():
     tab1.metric(label="Diâmetro Nominal Econômico [mm]", value=economic_diameter,)
     tab2.metric(label="Custo de Montagem por Metro", value=f"{'R${:,.2f}'.format(economic_assembly_cost)} ",)
     tab3.metric(label="Custo de Implantação por Metro", value=f"{'R${:,.2f}'.format(economic_implementation_cost)} ",)
-    tab5.metric(label="Custo Total por Metro", value=f"{'R${:,.2f}'.format(economic_total_cost_meter)} ",)
+    tab4.metric(label="Custo Total por Metro", value=f"{'R${:,.2f}'.format(economic_total_cost_meter)} ",)
 
     st.markdown("###") 
     
