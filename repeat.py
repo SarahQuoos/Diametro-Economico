@@ -199,7 +199,7 @@ def Main():
                   'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora': bt_volume,'Preço Bota-Fora': bt_price_meter, 
                   'Nivel Água': water_level, 'Custo de Montagem': assembly_cost,'Custo Tubulação': pipe_cost, 
                   'Custo de Implantação': implementation_cost, 'Coeficiente de Atualização da Energia': Fa,
-                  'Custo de Operação': operation_cost, 'Custo Total por Metro': total_cost_meter, 'Custo Total do Projeto': total_cost}
+                  'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter}
     
     calculations_table = pd.DataFrame(data_table)
     st.table(calculations_table)
