@@ -201,9 +201,9 @@ def Main():
                   'Custo de Implantação': implementation_cost, 'Coeficiente de Atualização da Energia': Fa,
                   'Custo de Operação': operation_cost, 'Custo Total por Metro': total_cost_meter, 'Custo Total do Projeto': total_cost}
     
-    calculations_table = pd.DataFrame(data_table)
-    st.table(calculations_table)
-    return calculations_table
+    #calculations_table = pd.DataFrame(data_table)
+    #st.table(calculations_table)
+    return data_table
               
 #Main Loop
 submit_button_check = 0
@@ -230,8 +230,10 @@ with st.sidebar:
                 st.rerun()
 
 if submit_button_check == 1:
-    calculations_table = Main()
+    Main()
 
 #Botão visualizar tabela
 if st.checkbox("Mostrar tabela de cálculos"):
+    data_table = Main()
+    calculations_table = pd.DataFrame(data_table)
     st.table(calculations_table)
