@@ -201,7 +201,8 @@ def Main():
     
     calculations_table = pd.DataFrame(data_table)
     #rounded_table = calculations_table.round(2)
-    rounded_table = np.round(calculations_table,decimals=2)
+    #rounded_table = np.round(calculations_table,decimals=2)
+    rounded_table ='{:.2f}'.format(round(calculations_table, 2))
     st.table(rounded_table)
     #return data_table
               
