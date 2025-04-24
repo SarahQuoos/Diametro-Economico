@@ -203,6 +203,9 @@ def Main():
     
     calculations_table = pd.DataFrame(data_table)
     st.table(calculations_table)
+
+    if option_check == 1:
+        st.table(calculations_table)
               
 #Main Loop
 submit_button_check = 0
@@ -233,5 +236,5 @@ if submit_button_check == 1:
 
 #Botão visualizar tabela
 if st.checkbox("Mostrar tabela de cálculos"):
+    option_check = 1
     Main()
-    st.table(calculations_table)
