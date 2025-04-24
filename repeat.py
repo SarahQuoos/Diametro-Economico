@@ -144,7 +144,8 @@ def Main():
     
     calculations_table = pd.DataFrame(data_table)
     rounded_table = np.round(calculations_table,decimals=2)
-    st.table(rounded_table)
+    with st.expander("Visualizar Tabela de Resultados"):
+        st.table(rounded_table)
               
 #Main Loop
 submit_button_check = 0
@@ -155,7 +156,7 @@ with st.sidebar:
         length = st.number_input('Comprimento da adutora em metros:')
         min_water_level = st.number_input('Cota do nível de água mínimo no poço de sucção do bombeamento em metros:')
         max_water_level = st.number_input('Cota do nível de água máximo no reservatório elevado em metros:')  
-        material = st.selectbox("Material da tubulação?",("Select","Ferro Fundido", "PVC", "PRVF"),)
+        material = st.selectbox("Informe o material da tubulação?",("Select","Ferro Fundido", "PVC", "PRVF"),)
         electricity_cost = 0.75
         project_lifespan = 20
         
