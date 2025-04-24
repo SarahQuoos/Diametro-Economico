@@ -130,8 +130,6 @@ def Main():
 
     st.markdown("###") 
     
-    #Calculations table view
-    st.markdown("### Tabela de Resultados")
     data_table = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Área': area, 'Velocidade': speed, 
                   'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de Carga Distribuída': major_pressure_loss,
                   'Perda de carga localizada': minor_pressure_loss, 'Perda de Carga Total': total_pressure_losses,
@@ -146,9 +144,9 @@ def Main():
     rounded_table = calculations_table.round(2)
     #rounded_table = np.round(calculations_table,decimals=2) 
 
+    #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
-        st.dataframe(rounded_table.style.applymap(lambda _: "background-color: LightSalmon;", subset=([aux], slice(None))))
-        #st.table(rounded_table)
+        st.dataframe(rounded_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
               
 #Main Loop
 submit_button_check = 0
