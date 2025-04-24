@@ -148,8 +148,11 @@ def Main():
     #Custo da energia elétrica
     p=0.75
     
+    #Custo de operação 
+    operation_cost = (9.81*(flow/3600)*manometric_height*pump_work_hours*Fa*p)/global_efficiency
+   
     #Custo total
-    total_cost = (implementation_cost*length)+((9.81*(flow/3600)*manometric_height*pump_work_hours*Fa*p)/global_efficiency)
+    total_cost = (implementation_cost*length)+operation_cost
     total_cost_meter = total_cost/length
     
     #Finding Economic diameter       
@@ -195,7 +198,7 @@ def Main():
                   'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora': bt_volume,'Preço Bota-Fora': bt_price_meter, 
                   'Nivel Água': water_level, 'Custo de Montagem': assembly_cost,'Custo Tubulação': pipe_cost, 
                   'Custo de Implantação': implementation_cost, 'Coeficiente de Atualização da Energia': Fa,
-                  'Custo Total por Metro': total_cost_meter, 'Custo Total do Projeto': total_cost}
+                  'Custo de Operação': operation_cost, 'Custo Total por Metro': total_cost_meter, 'Custo Total do Projeto': total_cost}
     
     calculations_table = pd.DataFrame(data_table)
     st.table(calculations_table)
@@ -229,5 +232,4 @@ if submit_button_check == 1:
 
 #Botão visualizar tabela
 if st.checkbox("Mostrar tabela de cálculos"):
-    st.write(st.session_state.test)
     st.table(calculations_table)
