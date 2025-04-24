@@ -181,7 +181,7 @@ def Main():
     tab2.metric(label="Custo de Montagem [R$/m]", value=f"{round(economic_assembly_cost,2)} ",)
     tab3.metric(label="Custo de Implementação [R$/m]", value=f"{round(economic_implementation_cost,2)} ",)
     tab4.metric(label="Custo Total [R$/m]", value=f"{round(economic_total_cost_meter,2)} ",)
-    tab4.metric(label="Custo Total [R$]", value=f"{round(min_total_cost,2)} ",)
+    tab5.metric(label="Custo Total [R$]", value=f"{round(min_total_cost,2)} ",)
 
     st.markdown("###") 
     
