@@ -156,14 +156,13 @@ with st.sidebar:
         min_water_level = st.number_input('Cota do nível de água mínimo no poço de sucção do bombeamento em metros:')
         max_water_level = st.number_input('Cota do nível de água máximo no reservatório elevado em metros:')  
         material = st.selectbox("Material da tubulação?",("Select","Ferro Fundido", "PVC", "PRVF"),)
-    if st.checkbox("Deseja informar o preço atual da energia elétrica em kWh"):
-        electricity_cost = st.number_input('Preço da energia elétrica em kWh :', value=0.75)
-    else:
         electricity_cost = 0.75
-    if st.checkbox("Deseja informar a vida útil do projeto em anos?"):    
-        project_lifespan = st.number_input('Vida útil do projeto em anos:', value=20)
-    else:
         project_lifespan = 20
+        
+        with st.expander("Deseja informar o preço atual da energia elétrica em kWh"):
+            electricity_cost = st.number_input('Preço da energia elétrica em kWh :', value=0.75)
+        with st.expander("Deseja informar a vida útil do projeto em anos?"):    
+            project_lifespan = st.number_input('Vida útil do projeto em anos:', value=20)
             
         button_submit, button_reset = st.columns(2)
         
