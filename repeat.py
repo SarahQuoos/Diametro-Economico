@@ -156,15 +156,16 @@ def Main():
     total_cost_meter = total_cost/length
     
     #Finding Economic diameter       
-    min_total_cost = min(total_cost) 
-    list_size = len(total_cost) 
+    min_total_cost_meter = min(total_cost_meter) 
+    list_size = len(total_cost_meter) 
     aux = 0
     
     while aux <= list_size:
-        if total_cost[aux] == min_total_cost:
+        if total_cost_meter[aux] == min_total_cost_meter:
             economic_diameter = nominal_diameter[aux]
             economic_assembly_cost = assembly_cost[aux]
             economic_implementation_cost = implementation_cost[aux]
+            economic_operation_cost = operation_cost[aux]
             economic_total_cost_meter = total_cost_meter[aux]
             break
         else:
@@ -182,9 +183,9 @@ def Main():
     tab1, tab2, tab3, tab4, tab5 = st.columns(5)
     tab1.metric(label="Diâmetro Nominal Econômico [mm]", value=economic_diameter,)
     tab2.metric(label="Custo de Montagem [R$/m]", value=f"{round(economic_assembly_cost,2)} ",)
-    tab3.metric(label="Custo de Implementação [R$/m]", value=f"{round(economic_implementation_cost,2)} ",)
-    tab4.metric(label="Custo Total [R$/m]", value=f"{round(economic_total_cost_meter,2)} ",)
-    tab5.metric(label="Custo Total [R$]", value=f"{round(min_total_cost,2)} ",)
+    tab3.metric(label="Custo de Implantação [R$/m]", value=f"{round(economic_implementation_cost,2)} ",)
+    tab4.metric(label="Custo de Operação [R$]", value=f"{round(economic_operation_cost,2)} ",)
+    tab5.metric(label="Custo Total [R$/m]", value=f"{round(economic_total_cost_meter,2)} ",)
 
     st.markdown("###") 
     
@@ -232,4 +233,5 @@ if submit_button_check == 1:
 
 #Botão visualizar tabela
 if st.checkbox("Mostrar tabela de cálculos"):
+    Main()
     st.table(calculations_table)
