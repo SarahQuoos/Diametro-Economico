@@ -202,7 +202,7 @@ def Main():
     calculations_table = pd.DataFrame(data_table)
     #rounded_table = calculations_table.round(2)
     #rounded_table = np.round(calculations_table,decimals=2)
-    rounded_table =f"{'{:,.2f}'.format(economic_total_cost_meter)}"
+    rounded_table ='{:,.2f}'.format(economic_total_cost_meter)
     st.table(rounded_table)
     #return data_table
               
