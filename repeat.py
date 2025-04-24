@@ -230,8 +230,10 @@ with st.sidebar:
                 st.rerun()
 
 if submit_button_check == 1:
+    Main()
+    
+#Botão visualizar tabela
+if st.checkbox("Mostrar tabela de cálculos"):
     x = Main()
-    #Botão visualizar tabela
-    if st.checkbox("Mostrar tabela de cálculos"):
-        calculations_table = pd.DataFrame(x)
-        st.table(calculations_table)
+    calculations_table = pd.DataFrame(x)
+    st.table(calculations_table)
