@@ -142,7 +142,7 @@ def Main():
     #Coeficiente de atualização da energia
     i= 0.12
     e = 0.06
-    n = 2 
+    n = 20 
     Fa = (((1 + e)**n - (1 + i)**n)/((1 + e) - (1 + i)))*(1/((1 + i)**n))
     
     #Custo da energia elétrica
