@@ -172,7 +172,7 @@ def Main():
 
     ########Gráficos e Resultados########
     #Line Chart
-    st.markdown("### Gráfico: Custo Total [R$/m] x Diâmetro Nominal [mm]")
+    st.markdown("### Custo Total [R$/m] x Diâmetro Nominal [mm] ###")
     chart_data = {'Diâmetro nominal': nominal_diameter,'Custo Total': total_cost_meter}
     st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
         
@@ -180,7 +180,7 @@ def Main():
     st.markdown("### Resultado")
     
     tab1, tab2, tab3, tab4 = st.columns(4)
-    tab1.metric(label="Diâmetro Nominal Econômico [mm]", value=economic_diameter,)
+    tab1.metric(label="Diâmetro Econômico [mm]", value=economic_diameter,)
     tab2.metric(label="Custo de Montagem por Metro", value=f"{'R${:,.2f}'.format(economic_assembly_cost)} ",)
     tab3.metric(label="Custo de Implantação por Metro", value=f"{'R${:,.2f}'.format(economic_implementation_cost)} ",)
     tab4.metric(label="Custo Total por Metro", value=f"{'R${:,.2f}'.format(economic_total_cost_meter)} ",)
