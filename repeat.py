@@ -22,136 +22,82 @@ def Main():
     #Accessing database
     sheet_material = pd.read_excel('Banco de Dados.xlsx', sheet_name=material)
 
-    #Dados diâmetro interno
     inner_diameter_aux = sheet_material['Diâmetro interno'].tolist()
     inner_diameter = np.array(inner_diameter_aux)
 
-    #Dados diâmetro externo
     external_diameter_aux = sheet_material['Diâmetro externo'].tolist()
     external_diameter = np.array(external_diameter_aux)
-    
-    #Dados diâmetro nominal
+
     nominal_diameter_aux = sheet_material['Diâmetro nominal'].tolist()
     nominal_diameter = np.array(nominal_diameter_aux)
-    
-    #Dados preço da tubulação
+
     pipe_cost_aux = sheet_material['Valor metro'].tolist()
     pipe_cost = np.array(pipe_cost_aux)
-    
-    #Dados b
+
     trench_base_aux = sheet_material['Base vala'].tolist()
     trench_base = np.array(trench_base_aux)
-    
-    #Dados Pf
+
     trench_length_aux = sheet_material['Profundidade vala'].tolist()
     trench_length = np.array(trench_length_aux)
-    
-    #Dados h
-    #trench_height_aux = sheet_material['Altura vala'].tolist()
-    #trench_height = np.array(trench_height_aux)
-    
-    #Dados m
+  
     trench_ratio_aux = sheet_material['Proporção vala'].tolist()
     trench_ratio = np.array(trench_ratio_aux)
     
-    #Dados preço excavação
     excavation_price_aux = sheet_material['Preço escavação [R$/m3]'].tolist()
     excavation_price = np.array(excavation_price_aux)
     
-    #Dados preço aterro
     dig_price_aux = sheet_material['Preço do aterro [R$/m3]'].tolist()
     dig_price = np.array(dig_price_aux)
-    
-    #Dados distância bota-fora
+
     bt_distance_aux = sheet_material['Distância do bota-fora [km]'].tolist()
     bt_distance = np.array(bt_distance_aux)
     
-    #Dados preço transporte
-    transporte_price_aux = sheet_material['Preço do transporte [R$/(m3*km)]'].tolist()
-    transporte_price = np.array(transporte_price_aux)
+    transport_price_aux = sheet_material['Preço do transporte [R$/(m3*km)]'].tolist()
+    transport_price = np.array(transport_price_aux)
     
-    #Dados rugosidade
     roughness = sheet_material.loc[0, 'Rugosidade [mm]']
-    
-    ########Cálculos########
+
+    #Calculations
     pi = np.pi
-    area = (pi * ((inner_diameter/1000)**2))/4 
-                    
+    area = (pi * ((inner_diameter/1000)**2))/4          
     speed = (flow/3600)/area
-                    
-    #Dados da agua
-    water_specific_mass = 998 #massa específica [kg/m³]
-    water_dynamic_viscosity = 0.001 #viscosidade dinamica [Nm²/s]
+    
+    water_specific_mass = 998 #[kg/m³]
+    water_dynamic_viscosity = 0.001 #[Nm²/s]
                                       
-    #Número de reynolds
     reynolds = (water_specific_mass*(inner_diameter/1000)*speed)/water_dynamic_viscosity
                         
-    #Fator de atrito
     f = (-1.8*np.log10(((roughness/inner_diameter)/3.7)**1.11 + (6.9/reynolds)))**-2
                         
-    #Perdas de carga distribuída
-    gravity = 9.81
-    major_pressure_loss = f*((length*speed**2)/((inner_diameter/1000)*2*gravity))
-                    
-    #Perdas de carga localizada
+    major_pressure_loss = f*((length*speed**2)/((inner_diameter/1000)*2*9.81))        
     minor_pressure_loss = major_pressure_loss*0.1
-                    
-    #Perda de carga total
     total_pressure_losses = major_pressure_loss + minor_pressure_loss
                     
-    #Cota do nível de água
     water_level = max_water_level - min_water_level
-    
-    #Altura manométrica
     manometric_height = total_pressure_losses + water_level
-                    
-    #Rendimento global da estação
     global_efficiency = 0.75
-                    
-    #Potência requerida pela estação elevatória*********
     required_power = (gravity*(flow/3600)*manometric_height)/global_efficiency
     
-    #Volume de escavação
     diameter_meters = external_diameter/1000
     excavation_volume = (diameter_meters+(trench_base - diameter_meters)+trench_ratio*(diameter_meters + trench_length))*(diameter_meters + trench_length) 
-                    
-    #Volume do aterro
-    dig_volume = excavation_volume - ((pi * diameter_meters**2)/4)
-    
-    #Preço do aterro
-    dig_price_meter = dig_volume*dig_price
-    
-    #Preço da escavação
     excavation_price_meter = excavation_volume*excavation_price
-              
-    #Bota-fora
-    bt_volume = 1.3 * ((pi * diameter_meters**2)/4)
-                    
-    #Preço bota-fora
-    bt_price_meter = bt_volume*transporte_price*bt_distance
-            
-    #Custo de montagem
-    assembly_cost = excavation_price_meter + dig_price_meter + bt_price_meter
     
-    #Custo de implantação
+    dig_volume = excavation_volume - ((pi * diameter_meters**2)/4)
+    dig_price_meter = dig_volume*dig_price
+         
+    bt_volume = 1.3 * ((pi * diameter_meters**2)/4)
+    bt_price_meter = bt_volume*transport_price*bt_distance
+            
+    assembly_cost = excavation_price_meter + dig_price_meter + bt_price_meter
     implementation_cost = (pipe_cost + assembly_cost)
     
-    #Número de horas de bombeamento
     pump_work_hours = 7665.0
+    annual_interest_rate = 0.12
+    energy_increase_rate = 0.06
+    energy_coefficient = (((1 + energy_increase_rate)**project_lifespan - (1 + annual_interest_rate)**project_lifespan)/((1 + energy_increase_rate) - (1 + annual_interest_rate)))*(1/((1 + annual_interest_rate)**project_lifespan))
     
-    #Coeficiente de atualização da energia
-    i= 0.12
-    e = 0.06
-    n = 20 
-    Fa = (((1 + e)**n - (1 + i)**n)/((1 + e) - (1 + i)))*(1/((1 + i)**n))
-    
-    #Custo da energia elétrica
-    p=0.75
-    
-    #Custo de operação 
-    operation_cost = (9.81*(flow/3600)*manometric_height*pump_work_hours*Fa*p)/global_efficiency
+    operation_cost = (9.81*(flow/3600)*manometric_height*pump_work_hours*energy_coefficient*electricity_cost)/global_efficiency
    
-    #Custo total
     total_cost = (implementation_cost*length)+operation_cost
     total_cost_meter = total_cost/length
     
@@ -170,7 +116,6 @@ def Main():
         else:
             aux = aux + 1
 
-    ########Gráficos e Resultados########
     #Line Chart
     st.markdown("### Custo Total [R$/m] x Diâmetro Nominal [mm] ###")
     chart_data = {'Diâmetro nominal': nominal_diameter,'Custo Total': total_cost_meter}
@@ -179,11 +124,9 @@ def Main():
     #Results table
     st.markdown("### Resultado")
     
-    tab1, tab2, tab3, tab4 = st.columns(4)
+    tab1, tab2 = st.columns(2)
     tab1.metric(label="Diâmetro Econômico [mm]", value=economic_diameter,)
-    tab2.metric(label="Custo de Montagem por Metro", value=f"{'R${:,.2f}'.format(economic_assembly_cost)} ",)
-    tab3.metric(label="Custo de Implantação por Metro", value=f"{'R${:,.2f}'.format(economic_implementation_cost)} ",)
-    tab4.metric(label="Custo Total por Metro", value=f"{'R${:,.2f}'.format(economic_total_cost_meter)} ",)
+    tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R${:,.2f}'.format(economic_total_cost_meter)} ",)
 
     st.markdown("###") 
     
@@ -202,7 +145,6 @@ def Main():
     calculations_table = pd.DataFrame(data_table)
     rounded_table = np.round(calculations_table,decimals=2)
     st.table(rounded_table)
-    #return data_table
               
 #Main Loop
 submit_button_check = 0
@@ -214,6 +156,8 @@ with st.sidebar:
         min_water_level = st.number_input('Cota do nível de água mínimo no poço de sucção do bombeamento em metros:')
         max_water_level = st.number_input('Cota do nível de água máximo no reservatório elevado em metros:')  
         material = st.selectbox("Material da tubulação?",("Select","Ferro Fundido", "PVC", "PRVF"),)
+        electricity_cost = st.number_input('Deseja informar o preço atual da energia elétrica em kWh? :', value=0.75)
+        project_lifespan = st.number_input('Deseja informar a vida útil do projeto em anos?:', value=20)
             
         button_submit, button_reset = st.columns(2)
         
@@ -233,6 +177,3 @@ if submit_button_check == 1:
     
 #Botão visualizar tabela
 #if st.checkbox("Mostrar tabela de cálculos"):
-#    x = Main()
-#    calculations_table = pd.DataFrame(x)
-#    st.table(calculations_table)
