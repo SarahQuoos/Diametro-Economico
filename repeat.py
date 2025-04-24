@@ -143,7 +143,8 @@ def Main():
                   'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter}
     
     calculations_table = pd.DataFrame(data_table)
-    rounded_table = np.round(calculations_table,decimals=2) 
+    rounded_table = calculations_table.round(2)
+    #rounded_table = np.round(calculations_table,decimals=2) 
 
     with st.expander("Visualizar Tabela de Resultados"):
         st.dataframe(rounded_table.style.applymap(lambda _: "background-color: LightSalmon;", subset=([aux], slice(None))))
