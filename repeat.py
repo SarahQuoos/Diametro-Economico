@@ -200,7 +200,7 @@ def Main():
                   'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter}
     
     calculations_table = pd.DataFrame(data_table)
-    rounded_table = calculations_table.round(2)
+    rounded_table = calculations_table.round(1)
     st.table(rounded_table)
     #return data_table
               
