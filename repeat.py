@@ -165,7 +165,6 @@ def Main():
             economic_diameter = nominal_diameter[aux]
             economic_assembly_cost = assembly_cost[aux]
             economic_implementation_cost = implementation_cost[aux]
-            economic_operation_cost = operation_cost[aux]
             economic_total_cost_meter = total_cost_meter[aux]
             break
         else:
@@ -180,13 +179,11 @@ def Main():
     #Results table
     st.markdown("### Resultado")
     
-    tab1, tab2, tab3, tab4, tab5 = st.columns(5)
+    tab1, tab2, tab3, tab4 = st.columns(4)
     tab1.metric(label="Diâmetro Nominal Econômico [mm]", value=economic_diameter,)
-    #tab2.metric(label="Custo de Montagem [R$/m]", value=f"{round(economic_assembly_cost,2)} ",)
-    tab2.metric(label="Custo de Montagem [R$/m]", value=f"{'R${:,.2f}'.format(economic_assembly_cost)} ",)
-    tab3.metric(label="Custo de Implantação [R$/m]", value=f"{'R${:,.2f}'.format(economic_implementation_cost)} ",)
-    tab4.metric(label="Custo de Operação [R$]", value=f"{'R${:,.2f}'.format(economic_operation_cost)} ",)
-    tab5.metric(label="Custo Total [R$/m]", value=f"{'R${:,.2f}'.format(economic_total_cost_meter)} ",)
+    tab2.metric(label="Custo de Montagem por Metro", value=f"{'R${:,.2f}'.format(economic_assembly_cost)} ",)
+    tab3.metric(label="Custo de Implantação por Metro", value=f"{'R${:,.2f}'.format(economic_implementation_cost)} ",)
+    tab5.metric(label="Custo Total por Metro", value=f"{'R${:,.2f}'.format(economic_total_cost_meter)} ",)
 
     st.markdown("###") 
     
