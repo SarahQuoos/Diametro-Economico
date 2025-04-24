@@ -106,7 +106,7 @@ def Main():
     manometric_height = total_pressure_losses + water_level
                     
     #Rendimento global da estação
-    global_efficiency = 0.70
+    global_efficiency = 0.75
                     
     #Potência requerida pela estação elevatória*********
     required_power = (gravity*(flow/3600)*manometric_height)/global_efficiency
