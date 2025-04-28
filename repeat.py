@@ -122,8 +122,9 @@ def Main():
     #st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
 
     #Line Chart Try
+    st.markdown("### Custo Total (R$/m) x Diâmetro Nominal(mm) ###")
     chart_data1 = {'Custo Total': total_cost_meter, 'Diâmetro nominal': nominal_diameter}
-    fig = px.line(chart_data1, x="Diâmetro nominal", y="Custo Total", title='Custo Total (R$/m) x Diâmetro Nominal(mm)',height=500)
+    fig = px.line(chart_data1, x="Diâmetro nominal", y="Custo Total")
     fig
     
     #Results table
