@@ -123,8 +123,11 @@ def Main():
 
     #Line Chart Try
     st.markdown("### AAAAA") 
-    chart_data1 = {'Diâmetro nominal': nominal_diameter,'Custo Total': total_cost_meter}
-    fig = px.line(chart_data1, x="Diâmetro nominal", y="Custo Total", title='Custo Total (R$/m) x Diâmetro Nominal(mm')
+    #chart_data1 = {'Custo Total': total_cost_meter, 'Diâmetro nominal': nominal_diameter}
+    #fig = px.line(chart_data1, x="Diâmetro nominal", y="Custo Total", title='Custo Total (R$/m) x Diâmetro Nominal(mm')
+    #fig.show()
+    t = np.linspace(0, 2*np.pi, 100)
+    fig = px.line(x=t, y=np.cos(t), labels={'x':'t', 'y':'cos(t)'})
     fig.show()
     
     #Results table
