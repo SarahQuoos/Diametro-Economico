@@ -1,9 +1,9 @@
 import streamlit as st
-#from st_aggrid import AgGrid
-import openpyxl
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
+import plotly.express as px
+#import matplotlib.pyplot as plt
+import openpyxl
 
 #Streamlit page config
 st.set_page_config(
@@ -120,7 +120,13 @@ def Main():
     st.markdown("### Custo Total (R$/m) x Diâmetro Nominal(mm) ###")
     chart_data = {'Custo Total': total_cost_meter, 'Diâmetro nominal': nominal_diameter}
     st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
-        
+
+    #Line Chart Try
+    st.markdown("###") 
+    chart_data1 = {'Diâmetro nominal': nominal_diameter,'Custo Total': total_cost_meter}
+    fig = px.line(chart_data1, x="Diâmetro nominal", y="Custo Total", title='Custo Total (R$/m) x Diâmetro Nominal(mm')
+    fig.show()
+    
     #Results table
     st.markdown("### Resultado")
     
