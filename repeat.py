@@ -122,13 +122,9 @@ def Main():
     st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
 
     #Line Chart Try
-    st.markdown("### AAAAA") 
     #chart_data1 = {'Custo Total': total_cost_meter, 'Diâmetro nominal': nominal_diameter}
     #fig = px.line(chart_data1, x="Diâmetro nominal", y="Custo Total", title='Custo Total (R$/m) x Diâmetro Nominal(mm')
     #fig.show()
-    t = np.linspace(0, 2*np.pi, 100)
-    fig = px.line(x=t, y=np.cos(t), labels={'x':'t', 'y':'cos(t)'})
-    fig.show()
     
     #Results table
     st.markdown("### Resultado")
@@ -191,3 +187,8 @@ with st.sidebar:
 
 if submit_button_check == 1:
     Main()
+    
+st.markdown("### AAAAA") 
+t = np.linspace(0, 2*np.pi, 100)
+fig = px.line(x=t, y=np.cos(t), labels={'x':'t', 'y':'cos(t)'})
+fig.show()
