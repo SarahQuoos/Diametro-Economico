@@ -145,11 +145,11 @@ def Main():
     
     calculations_table = pd.DataFrame(data_table)
     #rounded_table = calculations_table.round(2)
-    rounded_table = np.round(calculations_table,decimals=2) 
+    #rounded_table = np.round(calculations_table,decimals=2) 
 
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
-        st.dataframe(rounded_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+        st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
               
 #Main Loop
 submit_button_check = 0
