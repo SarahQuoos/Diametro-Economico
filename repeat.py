@@ -144,8 +144,9 @@ def Main():
                   'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter}
     
     calculations_table = pd.DataFrame(data_table)
-    rounded_table = calculations_table.round(2).copy()
-    rounded_table = rounded_table.astype(str).apply(lambda x: x.str.rstrip('0').str.rstrip('.'))
+    #rounded_table = calculations_table.round(2).copy()
+    #rounded_table = rounded_table.astype(str).apply(lambda x: x.str.rstrip('0').str.rstrip('.'))
+    rounded_table = calculations_table.apply(lambda x: "{:,.2f}".format(x['Value']), axis=1)
     
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
