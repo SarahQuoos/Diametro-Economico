@@ -145,6 +145,7 @@ def Main():
     
     calculations_table = pd.DataFrame(data_table)
     rounded_table = calculations_table.round(2).copy()
+    rounded_table = rounded_table.astype(str).apply(lambda x: x.str.rstrip('0').str.rstrip('.'))
     #rounded_table = calculations_table.round(2)
     #rounded_table = np.round(calculations_table,decimals=2) 
 
