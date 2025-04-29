@@ -145,14 +145,12 @@ def Main():
     
     calculations_table = pd.DataFrame(data_table)
     rounded_table = calculations_table.round(2).copy()
-    #rounded_table = rounded_table.astype(str).apply(lambda x: x.str.rstrip('0').str.rstrip('.'))
-    #rounded_table = calculations_table.round(2)
-    #rounded_table = np.round(calculations_table,decimals=2) 
-
+    rounded_table = rounded_table.astype(str).apply(lambda x: x.str.rstrip('0').str.rstrip('.'))
+    rounded_table = console.log(rounded_table.toLocaleString());
+    
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
         st.dataframe(rounded_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-        #st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
               
 #Main Loop
 submit_button_check = 0
