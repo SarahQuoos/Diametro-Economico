@@ -150,7 +150,8 @@ def Main():
     
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
-        st.dataframe(rounded_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+        rounded_table
+        #st.dataframe(rounded_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
               
 #Main Loop
 submit_button_check = 0
