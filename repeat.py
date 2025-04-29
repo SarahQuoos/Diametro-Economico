@@ -117,15 +117,10 @@ def Main():
             aux = aux + 1
 
     #Line Chart
-    #st.markdown("### Custo Total (R$/m) x Diâmetro Nominal(mm) ###")
-    #chart_data = {'Custo Total': total_cost_meter, 'Diâmetro nominal': nominal_diameter}
-    #st.line_chart(chart_data, x="Diâmetro nominal", y="Custo Total",height=500)
-
-    #Line Chart Try
     st.markdown("### Custo Total (R$/m) x Diâmetro Nominal(mm) ###")
-    chart_data1 = {'Custo Total': total_cost_meter, 'Diâmetro nominal': nominal_diameter}
-    fig = px.line(chart_data1, x="Diâmetro nominal", y="Custo Total")
-    fig
+    chart_data = {'Custo Total': total_cost_meter, 'Diâmetro nominal': nominal_diameter}
+    chart = px.line(chart_data, x="Diâmetro nominal", y="Custo Total")
+    chart
     
     #Results table
     st.markdown("### Resultado")
@@ -147,8 +142,8 @@ def Main():
                   'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter}
     
     calculations_table = pd.DataFrame(data_table)
-    rounded_table = calculations_table.round(2)
-    #rounded_table = np.round(calculations_table,decimals=2) 
+    #rounded_table = calculations_table.round(2)
+    rounded_table = np.round(calculations_table,decimals=2) 
 
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
