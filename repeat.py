@@ -121,7 +121,7 @@ def Main():
     chart = px.line(chart_data, x="Diâmetro nominal", y="Custo Total")
     chart.update_layout(width = 1200, height = 500)
     chart.update_yaxes(autorangeoptions=dict(minallowed=0))
-    chart.update_xaxes(autorangeoptions=dict(maxallowed=0))
+    chart.update_xaxes(autorangeoptions=dict(minallowed=0))
     chart
     
     #Results table
