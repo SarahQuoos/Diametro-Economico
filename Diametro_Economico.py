@@ -15,7 +15,7 @@ st.set_page_config(
     )
 
 #Page Title
-st.title("Dimensionamento de Diâmetro Econômico TESSSSSSSTEEEEEEEEEEEE")
+st.title("Dimensionamento de Diâmetro Econômico")
 
 def Main():
     #Accessing database
