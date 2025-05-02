@@ -133,7 +133,7 @@ def Main():
     
     st.markdown("###") 
     
-    data_table = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Área': area, 'Velocidade': speed, 
+    data_table1 = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Área': area, 'Velocidade': speed, 
                   'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de Carga Distribuída': major_pressure_loss,
                   'Perda de carga localizada': minor_pressure_loss, 'Perda de Carga Total': total_pressure_losses,
                   'Potência Requerida': required_power, 'Volume de Escavação': excavation_volume,
@@ -142,12 +142,23 @@ def Main():
                   'Nivel Água': water_level, 'Custo de Montagem': assembly_cost,'Custo Tubulação': pipe_cost, 
                   'Custo de Implantação': implementation_cost, 'Coeficiente de Atualização da Energia': energy_coefficient,
                   'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter}
+
+    data_table = {'Diâmetro Nominal': nominal_diameter,'Reynolds': reynolds,'Perda de Carga Total': total_pressure_losses,'Potência Requerida': required_power, 
+                  'Custo de Montagem': assembly_cost,'Custo Tubulação': pipe_cost, 'Custo de Implantação': implementation_cost,
+                  'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter} 
     
     calculations_table = pd.DataFrame(data_table)
+    
     #View values format
-    #calculations_table['Custo de Operação'] = calculations_table['Custo de Operação'].apply(lambda x: "{:,.2f}".format(x))
-    #calculations_table['Custo Total do Projeto'] = calculations_table['Custo Total do Projeto'].apply(lambda x: "{:,.2f}".format(x))
-    #calculations_table['Custo Total por Metro'] = calculations_table['Custo Total por Metro'].apply(lambda x: "{:,.2f}".format(x))
+    calculations_table['Reynolds'] = calculations_table['Custo de Operação'].apply(lambda x: "{:,.2f}".format(x))
+    calculations_table['Perda de Carga Total'] = calculations_table['Custo de Operação'].apply(lambda x: "{:.2f}".format(x))
+    calculations_table['Potência Requerida'] = calculations_table['Custo de Operação'].apply(lambda x: "{:.2f}".format(x))
+    calculations_table['Custo de Montagem'] = calculations_table['Custo de Montagem'].apply(lambda x: "{:,.2f}".format(x))
+    calculations_table['Custo Tubulação'] = calculations_table['Custo Tubulação'].apply(lambda x: "{:,.2f}".format(x))
+    calculations_table['Custo de Implantação'] = calculations_table['Custo de Implantação'].apply(lambda x: "{:,.2f}".format(x))
+    calculations_table['Custo de Operação'] = calculations_table['Custo de Operação'].apply(lambda x: "{:,.2f}".format(x))
+    calculations_table['Custo Total do Projeto'] = calculations_table['Custo Total do Projeto'].apply(lambda x: "{:,.2f}".format(x))
+    calculations_table['Custo Total por Metro'] = calculations_table['Custo Total por Metro'].apply(lambda x: "{:,.2f}".format(x))
 
     #values = calculations_table[["Diâmetro Interno", "Coeficiente de Atualização da Energia"]]
     #values = values.apply(lambda x: "{:,.2f}".format(x))
@@ -157,8 +168,7 @@ def Main():
     
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
-        #st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-        st.dataframe(calculations_table.style.applymap(lambda x: "{:,.2f}".format(x['Value']), axis=1))
+        st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
               
 #Main Loop
 submit_button_check = 0
