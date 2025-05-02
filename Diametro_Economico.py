@@ -158,7 +158,7 @@ def Main():
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
         #st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-        st.dataframe(calculations_table.style.applymap(lambda x: "{:,.2f}".format(x['Value']), axis=1)
+        st.dataframe(calculations_table.style.applymap(lambda x: "{:,.2f}".format(x['Value']), axis=1))
               
 #Main Loop
 submit_button_check = 0
