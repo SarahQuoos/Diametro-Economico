@@ -133,7 +133,7 @@ def Main():
     
     st.markdown("###") 
     
-    data_table1 = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Área': area, 'Velocidade': speed, 
+    data_table = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Área': area, 'Velocidade': speed, 
                   'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de Carga Distribuída': major_pressure_loss,
                   'Perda de carga localizada': minor_pressure_loss, 'Perda de Carga Total': total_pressure_losses,
                   'Potência Requerida': required_power, 'Volume de Escavação': excavation_volume,
@@ -143,14 +143,14 @@ def Main():
                   'Custo de Implantação': implementation_cost, 'Coeficiente de Atualização da Energia': energy_coefficient,
                   'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter}
 
-    data_table = {'Diâmetro Nominal': nominal_diameter,'Custo de Montagem': assembly_cost,'Custo Tubulação': pipe_cost,
+    calculations_table = pd.DataFrame(data_table)
+
+    data_table1 = {'Diâmetro Nominal': nominal_diameter,'Custo de Montagem': assembly_cost,'Custo Tubulação': pipe_cost,
                   'Custo de Implantação': implementation_cost, 'Custo de Operação': operation_cost,
                   'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter} 
     
-    calculations_table = calculations_table.apply(lambda x: "{:,.2f}".format(x['Value']), axis=1)
-    calculations_table = pd.DataFrame(data_table)
-    
     #View values format
+    #calculations_table = pd.DataFrame(data_table1)
     #calculations_table['Custo de Montagem'] = calculations_table['Custo de Montagem'].apply(lambda x: "{:,.2f}".format(x))
     #calculations_table['Custo Tubulação'] = calculations_table['Custo Tubulação'].apply(lambda x: "{:,.2f}".format(x))
     #calculations_table['Custo de Implantação'] = calculations_table['Custo de Implantação'].apply(lambda x: "{:,.2f}".format(x))
@@ -162,13 +162,11 @@ def Main():
     #values = calculations_table[["Diâmetro Interno", "Coeficiente de Atualização da Energia"]]
     #values = values.apply(lambda x: "{:,.2f}".format(x))
     #rounded_table = calculations_table.round(2)
-    #rounded_table = rounded_table.astype(str).apply(lambda x: x.str.rstrip('0').str.rstrip('.'))
     #rounded_table = calculations_table.apply(lambda x: "{:,.2f}".format(x['Value']), axis=1)
     
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
-        #st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-        st.dataframe(calculations_table)
+        st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
               
 #Main Loop
 submit_button_check = 0
