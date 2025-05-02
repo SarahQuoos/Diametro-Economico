@@ -150,9 +150,9 @@ def Main():
     calculations_table = pd.DataFrame(data_table)
     
     #View values format
-    calculations_table['Reynolds'] = calculations_table['Custo de Operação'].apply(lambda x: "{:,.2f}".format(x))
-    calculations_table['Perda de Carga Total'] = calculations_table['Custo de Operação'].apply(lambda x: "{:.2f}".format(x))
-    calculations_table['Potência Requerida'] = calculations_table['Custo de Operação'].apply(lambda x: "{:.2f}".format(x))
+    calculations_table['Reynolds'] = calculations_table['Reynolds'].apply(lambda x: "{:,.2f}".format(x))
+    calculations_table['Perda de Carga Total'] = calculations_table['Perda de Carga Total'].apply(lambda x: "{:.2f}".format(x))
+    calculations_table['Potência Requerida'] = calculations_table['Potência Requerida'].apply(lambda x: "{:.2f}".format(x))
     calculations_table['Custo de Montagem'] = calculations_table['Custo de Montagem'].apply(lambda x: "{:,.2f}".format(x))
     calculations_table['Custo Tubulação'] = calculations_table['Custo Tubulação'].apply(lambda x: "{:,.2f}".format(x))
     calculations_table['Custo de Implantação'] = calculations_table['Custo de Implantação'].apply(lambda x: "{:,.2f}".format(x))
