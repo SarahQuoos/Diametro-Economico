@@ -148,14 +148,16 @@ def Main():
                   'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter} 
     
     calculations_table = pd.DataFrame(data_table)
+    calculations_table = calculations_table.apply(lambda x: "{:,.2f}".format(x['Value']), axis=1)
     
     #View values format
-    calculations_table['Custo de Montagem'] = calculations_table['Custo de Montagem'].apply(lambda x: "{:,.2f}".format(x))
-    calculations_table['Custo Tubulação'] = calculations_table['Custo Tubulação'].apply(lambda x: "{:,.2f}".format(x))
-    calculations_table['Custo de Implantação'] = calculations_table['Custo de Implantação'].apply(lambda x: "{:,.2f}".format(x))
-    calculations_table['Custo de Operação'] = calculations_table['Custo de Operação'].apply(lambda x: "{:,.2f}".format(x))
-    calculations_table['Custo Total do Projeto'] = calculations_table['Custo Total do Projeto'].apply(lambda x: "{:,.2f}".format(x))
-    calculations_table['Custo Total por Metro'] = calculations_table['Custo Total por Metro'].apply(lambda x: "{:,.2f}".format(x))
+    #calculations_table['Custo de Montagem'] = calculations_table['Custo de Montagem'].apply(lambda x: "{:,.2f}".format(x))
+    #calculations_table['Custo Tubulação'] = calculations_table['Custo Tubulação'].apply(lambda x: "{:,.2f}".format(x))
+    #calculations_table['Custo de Implantação'] = calculations_table['Custo de Implantação'].apply(lambda x: "{:,.2f}".format(x))
+    #calculations_table['Custo de Operação'] = calculations_table['Custo de Operação'].apply(lambda x: "{:,.2f}".format(x))
+    #calculations_table['Custo Total do Projeto'] = calculations_table['Custo Total do Projeto'].apply(lambda x: "{:,.2f}".format(x))
+    #calculations_table['Custo Total por Metro'] = calculations_table['Custo Total por Metro'].apply(lambda x: "{:,.2f}".format(x))
+    #calculations_table = calculations_table.apply(lambda x: "{:,.2f}".format(x['Value']), axis=1)
 
     #values = calculations_table[["Diâmetro Interno", "Coeficiente de Atualização da Energia"]]
     #values = values.apply(lambda x: "{:,.2f}".format(x))
@@ -165,7 +167,8 @@ def Main():
     
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
-        st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+        #st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+        st.table(calculations_table)
               
 #Main Loop
 submit_button_check = 0
