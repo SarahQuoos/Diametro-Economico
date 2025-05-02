@@ -144,10 +144,15 @@ def Main():
                   'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter}
     
     calculations_table = pd.DataFrame(data_table)
-    #cols = ['Custo Total do Projeto', 'Custo Total por Metro'] 
-    calculations_table['Custo Total por Metro'] = calculations_table['Custo Total por Metro'].apply(lambda x: "{:,.2f}".format(x))
+    #View values format
+
+    values = calculations_table[["Diâmetro Interno", "Coeficiente de Atualização da Energia"]]
+    values = values.apply(lambda x: "{:.2f}".format(x))
+    #calculations_table['Custo de Operação'] = calculations_table['Custo de Operação'].apply(lambda x: "{:,.2f}".format(x))
+    #calculations_table['Custo Total do Projeto'] = calculations_table['Custo Total do Projeto'].apply(lambda x: "{:,.2f}".format(x))
+    #calculations_table['Custo Total por Metro'] = calculations_table['Custo Total por Metro'].apply(lambda x: "{:,.2f}".format(x))
     
-    #rounded_table = calculations_table.round(2).copy()
+    #rounded_table = calculations_table.round(2)
     #rounded_table = rounded_table.astype(str).apply(lambda x: x.str.rstrip('0').str.rstrip('.'))
     #rounded_table = calculations_table.apply(lambda x: "{:,.2f}".format(x['Value']), axis=1)
     
