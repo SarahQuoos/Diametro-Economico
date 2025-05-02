@@ -147,8 +147,8 @@ def Main():
                   'Custo de Implantação': implementation_cost, 'Custo de Operação': operation_cost,
                   'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter} 
     
-    calculations_table = pd.DataFrame(data_table)
     calculations_table = calculations_table.apply(lambda x: "{:,.2f}".format(x['Value']), axis=1)
+    calculations_table = pd.DataFrame(data_table)
     
     #View values format
     #calculations_table['Custo de Montagem'] = calculations_table['Custo de Montagem'].apply(lambda x: "{:,.2f}".format(x))
@@ -168,7 +168,7 @@ def Main():
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
         #st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-        st.table(calculations_table)
+        st.dataframe(calculations_table)
               
 #Main Loop
 submit_button_check = 0
