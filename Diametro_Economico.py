@@ -159,15 +159,11 @@ def Main():
     #calculations_table['Custo Total por Metro'] = calculations_table['Custo Total por Metro'].apply(lambda x: "{:,.2f}".format(x))
     #calculations_table = calculations_table.apply(lambda x: "{:,.2f}".format(x['Value']), axis=1)
 
-    #values = calculations_table[["Diâmetro Interno", "Coeficiente de Atualização da Energia"]]
-    #values = values.apply(lambda x: "{:,.2f}".format(x))
-    #rounded_table = calculations_table.round(2)
-    #rounded_table = calculations_table.apply(lambda x: "{:,.2f}".format(x['Value']), axis=1)
-    
     #Calculations table view
     with st.expander("Visualizar Tabela de Resultados"):
-        st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-              
+        #st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+        st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+
 #Main Loop
 submit_button_check = 0
 with st.sidebar:
