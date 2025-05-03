@@ -150,18 +150,12 @@ def Main():
                   'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter} 
     
     #View values format
-    #calculations_table = pd.DataFrame(data_table1)
-    #calculations_table['Custo de Montagem'] = calculations_table['Custo de Montagem'].apply(lambda x: "{:,.2f}".format(x))
-    #calculations_table['Custo Tubulação'] = calculations_table['Custo Tubulação'].apply(lambda x: "{:,.2f}".format(x))
-    #calculations_table['Custo de Implantação'] = calculations_table['Custo de Implantação'].apply(lambda x: "{:,.2f}".format(x))
     #calculations_table['Custo de Operação'] = calculations_table['Custo de Operação'].apply(lambda x: "{:,.2f}".format(x))
     #calculations_table['Custo Total do Projeto'] = calculations_table['Custo Total do Projeto'].apply(lambda x: "{:,.2f}".format(x))
     #calculations_table['Custo Total por Metro'] = calculations_table['Custo Total por Metro'].apply(lambda x: "{:,.2f}".format(x))
-    #calculations_table = calculations_table.apply(lambda x: "{:,.2f}".format(x['Value']), axis=1)
-
     #Calculations table view
+    
     with st.expander("Visualizar Tabela de Resultados"):
-        #st.dataframe(calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
 
 #Main Loop
