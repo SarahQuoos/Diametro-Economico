@@ -148,11 +148,11 @@ def Main():
     with st.expander("Visualizar Tabela de Resultados"):
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
 
-        #Download button
-        buffer = io.BytesIO()
-        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-            calculations_table.to_excel(writer, sheet_name='Sheet1', index=False)
-            download2 = st.download_button(label="Download data as Excel",data=buffer,file_name='Calculations Table.xlsx',mime='application/vnd.ms-excel')
+    #Download button
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+        calculations_table.to_excel(writer, sheet_name='Sheet1', index=False)
+        download2 = st.download_button(label="Download data as Excel",data=buffer,file_name='Calculations Table.xlsx',mime='application/vnd.ms-excel')
 
 
 #Main Loop
