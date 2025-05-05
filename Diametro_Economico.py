@@ -133,7 +133,7 @@ def Main():
     
     st.markdown("###") 
     
-    data_table = {'Diâmetro Nominal [mm]': nominal_diameter,'Perda de Carga Total'[m]: total_pressure_losses,
+    data_table = {'Diâmetro Nominal [mm]': nominal_diameter,'Perda de Carga Total[m]': total_pressure_losses,
                   'Potência Requerida [W]': required_power, 'Volume de Escavação [m²]': excavation_volume,
                   'Preço da Escavação [R$/m]': excavation_price_meter,'Volume de Aterro [m²]': dig_volume,
                   'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora [m²]': bt_volume,'Preço Bota-Fora [R$/m]': bt_price_meter, 
