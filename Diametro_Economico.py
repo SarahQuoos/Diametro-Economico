@@ -146,6 +146,8 @@ def Main():
     #View values format
     with st.expander("Visualizar Tabela de Resultados"):
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+    with st.button("Download data table"):
+        calculations_table.to_excel("export.xlsx", engine="xlsxwriter")
 
 #Main Loop
 submit_button_check = 0
