@@ -129,7 +129,8 @@ def Main():
     
     tab1, tab2 = st.columns(2)
     tab1.metric(label="Diâmetro Econômico ", value=f"{'{:,} mm'.format(economic_diameter)} ",)
-    tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R$ {:,.2f}'.format(economic_total_cost_meter)} ",)
+    #tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R$ {:,.2f}'.format(economic_total_cost_meter)} ",)
+    tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R$ {:.,2f}'.format(economic_total_cost_meter)} ",)
     
     st.markdown("###") 
     
@@ -138,7 +139,7 @@ def Main():
                   'Preço da Escavação [R$/m]': excavation_price_meter,'Volume de Aterro [m²]': dig_volume,
                   'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora [m²]': bt_volume,'Preço Bota-Fora [R$/m]': bt_price_meter, 
                   'Nivel Água [m]': water_level, 'Custo de Montagem [R$/m]': assembly_cost,'Custo Tubulação [R$/m]': pipe_cost, 
-                  'Custo de Implantação [R$/m]': implementation_cost, 'Coeficiente de Atualização da Energia': energy_coefficient,
+                  'Custo de Implantação [R$/m]': implementation_cost, 'Coef. Atualização da Energia': energy_coefficient,
                   'Custo de Operação [R$]': operation_cost, 'Custo Total do Projeto [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
 
     calculations_table = pd.DataFrame(data_table)
