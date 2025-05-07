@@ -116,8 +116,8 @@ def Main():
 
     #Line Chart
     st.markdown("### Custo Total (R$/m) x Diâmetro Nominal (mm) ###")
-    chart_data = {'Custo Total': total_cost_meter, 'Diâmetro nominal': nominal_diameter}
-    chart = px.line(chart_data, x="Diâmetro nominal", y="Custo Total")
+    chart_data = {'Custo Total [R$/m]': total_cost_meter, 'Diâmetro nominal [mm]': nominal_diameter}
+    chart = px.line(chart_data, x="Diâmetro nominal [mm]", y="Custo Total [R$/m]")
     chart.update_layout(width = 1500, height = 500)
     chart.update_yaxes(autorangeoptions=dict(minallowed=0))
     chart.update_xaxes(autorangeoptions=dict(minallowed=0),fixedrange=True)
