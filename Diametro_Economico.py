@@ -116,8 +116,8 @@ def Main():
 
     #Line Chart
     st.markdown("### Custo Total x Diâmetro Nominal ###")
-    chart_data = {'Custo Total [R$/m]': total_cost_meter, 'Diâmetro nominal [mm]': nominal_diameter}
-    chart = px.line(chart_data, x="Diâmetro nominal [mm]", y="Custo Total [R$/m]")
+    chart_data = {'Custo Total [R$/m]': total_cost_meter, 'Diâmetro Nominal [mm]': nominal_diameter}
+    chart = px.line(chart_data, x="Diâmetro Nominal [mm]", y="Custo Total [R$/m]")
     chart.update_layout(width = 1500, height = 500)
     chart.update_yaxes(autorangeoptions=dict(minallowed=0))
     chart.update_xaxes(autorangeoptions=dict(minallowed=0),fixedrange=True)
@@ -128,7 +128,8 @@ def Main():
     
     tab1, tab2 = st.columns(2)
     tab1.metric(label="Diâmetro Econômico ", value=f"{'{:,} mm'.format(economic_diameter)} ",)
-    tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R$ {:,.2f}'.format(economic_total_cost_meter)} ",)
+    #tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R$ {:,.2f}'.format(economic_total_cost_meter)} ",)
+    tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R$ {:,.2f}'.format(economic_total_cost_meter)} ".)
     
     st.markdown("###") 
     
