@@ -14,11 +14,10 @@ st.set_page_config(
         'About': "# Desenvolvido por Sarah Quoos e Edgar Silva. UTFPR, Curitiba, PR, 2025"}
     )
 
-#Page Title
 st.title("Dimensionamento de Diâmetro Econômico")
 
 def Main():
-    #Accessing database
+    #Access database
     sheet_material = pd.read_excel('Banco de Dados.xlsx', sheet_name=material)
 
     inner_diameter_aux = sheet_material['Diâmetro interno'].tolist()
@@ -100,7 +99,7 @@ def Main():
     total_cost = (implementation_cost*length)+operation_cost
     total_cost_meter = total_cost/length
     
-    #Finding Economic diameter       
+    #Get economic diameter       
     min_total_cost_meter = min(total_cost_meter) 
     list_size = len(total_cost_meter) 
     aux = 0
@@ -134,20 +133,16 @@ def Main():
     st.markdown("###") 
     
     data_table = {'Diâmetro Nominal [mm]': nominal_diameter,'Perda de Carga Total[m]': total_pressure_losses,
-                  'Potência Requerida [W]': required_power, 'Volume de Escavação [m²]': excavation_volume,
-                  'Preço da Escavação [R$/m]': excavation_price_meter,'Volume de Aterro [m²]': dig_volume,
-                  'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora [m²]': bt_volume,'Preço Bota-Fora [R$/m]': bt_price_meter, 
-                  'Nivel Água [m]': water_level, 'Custo de Montagem [R$/m]': assembly_cost,'Custo da Tubulação [R$/m]': pipe_cost, 
-                  'Custo de Implantação [R$/m]': implementation_cost, 'Coef. Atualização da Energia': energy_coefficient,
-                  'Custo de Operação [R$]': operation_cost, 'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
+                  'Potência Requerida [W]': required_power, 'Custo de Implantação [R$/m]': implementation_cost, 
+                  'Coef. Atualização da Energia': energy_coefficient,'Custo de Operação [R$]': operation_cost, 
+                  'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
 
     calculations_table = pd.DataFrame(data_table)
     
-    #View values format
     with st.expander("Visualizar Tabela de Resultados"):
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
         
-#Main Loop
+#Main loop
 submit_button_check = 0
 with st.sidebar:
     st.title("Dados de entrada")
