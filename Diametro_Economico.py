@@ -132,9 +132,9 @@ def Main():
     
     st.markdown("###") 
     
-    data_table = {'Diâmetro Nominal [mm]': nominal_diameter,'Perda de Carga Total[m]': total_pressure_losses,
-                  'Potência Requerida [W]': required_power, 'Custo de Implantação [R$/m]': implementation_cost, 
-                  'Coef. Atualização da Energia': energy_coefficient,'Custo de Operação [R$]': operation_cost, 
+    data_table = {'Diâmetro Nominal [mm]': nominal_diameter,'Perda de Carga Total [m]': total_pressure_losses,
+                  'Potência Requerida [W]': required_power, 'Coef. Atualização de Energia': energy_coefficient, 
+                  'Custo de Implantação [R$/m]': implementation_cost,'Custo de Operação [R$]': operation_cost, 
                   'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
 
     calculations_table = pd.DataFrame(data_table)
