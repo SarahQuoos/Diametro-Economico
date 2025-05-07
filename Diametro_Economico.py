@@ -129,14 +129,12 @@ def Main():
     tab1, tab2 = st.columns(2)
     tab1.metric(label="Diâmetro Econômico ", value=f"{'{:,} mm'.format(economic_diameter)} ",)
     tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R$ {:,.2f}'.format(economic_total_cost_meter)} ",)
-    #tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R$ {:,2f}'.format(economic_total_cost_meter)} ",)
     
     st.markdown("###") 
     
     data_table = {'Diâmetro Nominal [mm]': nominal_diameter,'Perda de Carga Total [m]': total_pressure_losses,
-                  'Potência Requerida [W]': required_power, 'Coef. Atualização de Energia': energy_coefficient, 
-                  'Custo de Implantação [R$/m]': implementation_cost,'Custo de Operação [R$]': operation_cost, 
-                  'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
+                  'Potência Requerida [W]': required_power,'Custo de Implantação [R$/m]': implementation_cost,
+                  'Custo de Operação [R$]': operation_cost,'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
 
     calculations_table = pd.DataFrame(data_table)
     
