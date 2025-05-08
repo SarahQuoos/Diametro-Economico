@@ -149,7 +149,7 @@ def Main():
 
     #Download button for Database
     st.download_button(label='📥 Download Current Result',
-                                data=processed_data,
+                                data=complete_data_table,
                                 file_name= 'df_test.xlsx')
     
     #Download button for complete results table
