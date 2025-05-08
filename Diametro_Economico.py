@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import openpyxl
+import xlsxwriter
 
 #Streamlit page config
 st.set_page_config(
