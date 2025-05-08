@@ -137,36 +137,26 @@ def Main():
                   'Custo de Operação [R$]': operation_cost,'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
 
     calculations_table = pd.DataFrame(data_table)
+    
+    with st.expander("Visualizar Tabela Simplificada de Resultados"):
+        st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
 
     complete_data_table = {'Diâmetro Nominal [mm]': nominal_diameter,'Perda de Carga Total [m]': total_pressure_losses,
                   'Potência Requerida [W]': required_power,'Custo de Implantação [R$/m]': implementation_cost,
                   'Custo de Operação [R$]': operation_cost,'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
 
     complete_calculations_table = pd.DataFrame(complete_data_table)
+
+    #Download button for Database
+    with open(sheet_material, "rb") as template_file:
+        template_byte = template_file.read()
+
+    st.download_button(label="Click to Download Template File",
+                        data=template_byte,
+                        file_name="template.xlsx",
+                        mime='application/octet-stream')
     
-    with st.expander("Visualizar Tabela Simplificada de Resultados"):
-        st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-    
-    st.markdown(
-    """
-        <style>
-        .clickable {
-            color: rgb(46, 154, 255);
-            text-decoration: underline;
-        }
-        
-        .streamlit-expanderContent {
-            background-color: white;
-            color: black; # Expander content color
-        } 
-        
-        .streamlit-expanderHeader {
-            background-color: LightSkyBlue;
-            color: black; # Adjust this for expander header color
-        } """, unsafe_allow_html=True)
-    
-    with st.expander("Visualizar Tabela Completa de Resultados"):
-        st.dataframe(complete_calculations_table)
+    #Download button for complete results table
         
 #Main loop
 submit_button_check = 0
