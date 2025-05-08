@@ -4,6 +4,7 @@ import numpy as np
 import plotly.express as px
 import openpyxl
 import xlsxwriter
+from io import BytesIO
 
 #Streamlit page config
 st.set_page_config(
@@ -141,28 +142,6 @@ def Main():
     
     with st.expander("Visualizar Tabela Simplificada de Resultados"):
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-
-    complete_data_table = {'Diâmetro Nominal [mm]': nominal_diameter,'Perda de Carga Total [m]': total_pressure_losses,
-                  'Potência Requerida [W]': required_power,'Custo de Implantação [R$/m]': implementation_cost,
-                  'Custo de Operação [R$]': operation_cost,'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
-
-    complete_calculations_table = pd.DataFrame(complete_data_table)
-
-    #Download button for Database
-    workbook = xlsxwriter.Workbook(complete_calculations_table, {'in_memory': True})
-    worksheet = workbook.add_worksheet()
-    
-    worksheet.write('A1', 'Hello')
-    workbook.close()
-    
-    st.download_button(
-        label="Download Excel workbook",
-        data=output.getvalue(),
-        file_name="workbook.xlsx",
-        mime="application/vnd.ms-excel"
-    )
-    
-    #Download button for complete results table
         
 #Main loop
 submit_button_check = 0
@@ -198,3 +177,22 @@ with st.sidebar:
 
 if submit_button_check == 1:
     Main()
+
+df = {1,2,3}
+
+def to_excel(df):
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, index=False, sheet_name='Sheet1')
+    workbook = writer.book
+    worksheet = writer.sheets['Sheet1']
+    format1 = workbook.add_format({'num_format': '0.00'}) 
+    worksheet.set_column('A:A', None, format1)  
+    writer.save()
+    processed_data = output.getvalue()
+    return processed_data
+    
+df_xlsx = to_excel(df)
+st.download_button(label='📥 Download Current Result',
+                                data=df_xlsx ,
+                                file_name= 'df_test.xlsx')
