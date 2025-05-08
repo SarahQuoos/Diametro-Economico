@@ -179,9 +179,9 @@ with st.sidebar:
 if submit_button_check == 1:
     Main()
 
-df = {1,2,3}
 
-def to_excel(df):
+
+def a_excel(df):
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
     df.to_excel(writer, index=False, sheet_name='Sheet1')
@@ -191,9 +191,10 @@ def to_excel(df):
     worksheet.set_column('A:A', None, format1)  
     writer.save()
     processed_data = output.getvalue()
-    return processed_data
-    
-df_xlsx = to_excel(df)
+return processed_data
+
+vtncu = {1,2,3}
+df_xlsx = a_excel(vtncu)
 st.download_button(label='📥 Download Current Result',
                                 data=df_xlsx ,
                                 file_name= 'df_test.xlsx')
