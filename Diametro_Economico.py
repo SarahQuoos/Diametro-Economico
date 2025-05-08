@@ -148,9 +148,18 @@ def Main():
     complete_calculations_table = pd.DataFrame(complete_data_table)
 
     #Download button for Database
-    st.download_button(label='📥 Download Current Result',
-                                data=complete_data_table,
-                                file_name= 'df_test.xlsx')
+    workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+    
+    worksheet.write('A1', 'Hello')
+    workbook.close()
+    
+    st.download_button(
+        label="Download Excel workbook",
+        data=output.getvalue(),
+        file_name="workbook.xlsx",
+        mime="application/vnd.ms-excel"
+    )
     
     #Download button for complete results table
         
