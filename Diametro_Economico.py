@@ -148,8 +148,9 @@ def Main():
     complete_calculations_table = pd.DataFrame(complete_data_table)
 
     #Download button for Database
-    with open(sheet_material, "rb") as template_file:
-        template_byte = template_file.read()
+    #with open(sheet_material, "rb") as template_file:
+    #    template_byte = template_file.read()
+    sheet_material = template_file.read()
 
     st.download_button(label="Click to Download Template File",
                         data=template_byte,
