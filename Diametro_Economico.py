@@ -144,11 +144,6 @@ def Main():
     with st.expander("Visualizar Tabela Simplificada de Resultados"):
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
 
-    teste = calculations_table.to_excel(writer, index=False, sheet_name='Sheet1')
-    st.download_button(label='📥 Download Current Result',
-                                    data=teste,
-                                    file_name= 'teste.xlsx')
-
 #Main loop
 submit_button_check = 0
 with st.sidebar:
