@@ -191,7 +191,7 @@ def a_excel(df):
     worksheet.set_column('A:A', None, format1)  
     writer.save()
     processed_data = output.getvalue()
-return processed_data
+    return processed_data
 
 vtncu = {1,2,3}
 df_xlsx = a_excel(vtncu)
