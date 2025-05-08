@@ -161,13 +161,13 @@ def Main():
         } 
         
         .streamlit-expanderHeader {
-            background-color: white;
+            background-color: LightSkyBlue;
             color: black; # Adjust this for expander header color
         } """, unsafe_allow_html=True)
     
     with st.expander("Visualizar Tabela Completa de Resultados"):
-        st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-
+        st.dataframe(complete_calculations_table)
+        
 #Main loop
 submit_button_check = 0
 with st.sidebar:
