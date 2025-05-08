@@ -190,6 +190,7 @@ def a_excel(df):
     format1 = workbook.add_format({'num_format': '0.00'}) 
     worksheet.set_column('A:A', None, format1)  
     processed_data = output.getvalue()
+    writer.close()
     return processed_data
 
 vtncu = {1,2,3}
