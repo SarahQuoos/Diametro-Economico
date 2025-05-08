@@ -194,7 +194,9 @@ def a_excel(df):
     return processed_data
 
 vtncu = {1,2,3}
-df_xlsx = a_excel(vtncu)
+aaaaaa = pd.DataFrame(vtncu)
+
+df_xlsx = a_excel(aaaaaa)
 st.download_button(label='📥 Download Current Result',
                                 data=df_xlsx ,
                                 file_name= 'df_test.xlsx')
