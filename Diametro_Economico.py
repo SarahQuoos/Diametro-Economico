@@ -145,7 +145,7 @@ def Main():
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
 
     teste = calculations_table.to_excel(writer, index=False, sheet_name='Sheet1')
-    if st.download_button(label='📥 Download Current Result',
+    st.download_button(label='📥 Download Current Result',
                                     data=teste,
                                     file_name= 'teste.xlsx')
 
