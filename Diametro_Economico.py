@@ -142,7 +142,7 @@ def Main():
                   'Potência Requerida [W]': required_power,'Custo de Implantação [R$/m]': implementation_cost,
                   'Custo de Operação [R$]': operation_cost,'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
 
-    calculations_table = pd.DataFrame(complete_data_table)
+    complete_calculations_table = pd.DataFrame(complete_data_table)
     
     with st.expander("Visualizar Tabela Simplificada de Resultados"):
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
