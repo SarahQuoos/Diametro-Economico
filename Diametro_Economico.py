@@ -149,7 +149,7 @@ def Main():
     complete_calculations_table = pd.DataFrame(complete_data_table)
 
     #Download button for Database
-    workbook = xlsxwriter.Workbook(complete_data_frame, {'in_memory': True})
+    workbook = xlsxwriter.Workbook(complete_calculations_table, {'in_memory': True})
     worksheet = workbook.add_worksheet()
     
     worksheet.write('A1', 'Hello')
