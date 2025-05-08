@@ -137,10 +137,37 @@ def Main():
                   'Custo de Operação [R$]': operation_cost,'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
 
     calculations_table = pd.DataFrame(data_table)
+
+    complete_data_table = {'Diâmetro Nominal [mm]': nominal_diameter,'Perda de Carga Total [m]': total_pressure_losses,
+                  'Potência Requerida [W]': required_power,'Custo de Implantação [R$/m]': implementation_cost,
+                  'Custo de Operação [R$]': operation_cost,'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
+
+    calculations_table = pd.DataFrame(complete_data_table)
     
-    with st.expander("Visualizar Tabela de Resultados"):
+    with st.expander("Visualizar Tabela Simplificada de Resultados"):
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+    
+    st.markdown(
+    """
+        <style>
+        .clickable {
+            color: rgb(46, 154, 255);
+            text-decoration: underline;
+        }
         
+        .streamlit-expanderContent {
+            background-color: white;
+            color: black; # Expander content color
+        } 
+        
+        .streamlit-expanderHeader {
+            background-color: white;
+            color: black; # Adjust this for expander header color
+        } """, unsafe_allow_html=True)
+    
+    with st.expander("Visualizar Tabela Completa de Resultados"):
+        st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+
 #Main loop
 submit_button_check = 0
 with st.sidebar:
