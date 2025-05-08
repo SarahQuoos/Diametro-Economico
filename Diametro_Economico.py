@@ -143,7 +143,12 @@ def Main():
     
     with st.expander("Visualizar Tabela Simplificada de Resultados"):
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-        
+
+    teste = calculations_table.to_excel(writer, index=False, sheet_name='Sheet1')
+    if st.download_button(label='📥 Download Current Result',
+                                    data=teste,
+                                    file_name= 'teste.xlsx')
+
 #Main loop
 submit_button_check = 0
 with st.sidebar:
@@ -181,22 +186,22 @@ if submit_button_check == 1:
 
 
 
-def a_excel(df):
-    output = BytesIO()
-    writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df.to_excel(writer, index=False, sheet_name='Sheet1')
-    workbook = writer.book
-    worksheet = writer.sheets['Sheet1']
-    format1 = workbook.add_format({'num_format': '0.00'}) 
-    worksheet.set_column('A:A', None, format1)  
-    processed_data = output.getvalue()
-    writer.close()
-    return processed_data
+#def a_excel(df):
+#    output = BytesIO()
+#    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+#    df.to_excel(writer, index=False, sheet_name='Sheet1')
+#    workbook = writer.book
+#    worksheet = writer.sheets['Sheet1']
+#    format1 = workbook.add_format({'num_format': '0.00'}) 
+#    worksheet.set_column('A:A', None, format1)  
+#    processed_data = output.getvalue()
+#    writer.close()
+#    return processed_data
 
-vtncu = {1,2,3}
-aaaaaa = pd.DataFrame(vtncu)
+#vtncu = {1,2,3}
+#aaaaaa = pd.DataFrame(vtncu)
 
-df_xlsx = a_excel(aaaaaa)
-st.download_button(label='📥 Download Current Result',
-                                data=df_xlsx ,
-                                file_name= 'df_test.xlsx')
+#df_xlsx = a_excel(aaaaaa)
+#st.download_button(label='📥 Download Current Result',
+#                                data=df_xlsx ,
+#                                file_name= 'df_test.xlsx')
