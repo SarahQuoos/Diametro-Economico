@@ -5,6 +5,7 @@ import plotly.express as px
 import openpyxl
 import xlsxwriter
 from io import BytesIO
+from pyxlsb import open_workbook as open_xlsb
 
 #Streamlit page config
 st.set_page_config(
