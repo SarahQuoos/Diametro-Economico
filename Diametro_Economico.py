@@ -2,10 +2,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
-import openpyxl
-import xlsxwriter
+#import openpyxl
 from io import BytesIO
-from pyxlsb import open_workbook as open_xlsb
+
 
 #Streamlit page config
 st.set_page_config(
@@ -144,6 +143,21 @@ def Main():
     with st.expander("Visualizar Tabela Simplificada de Resultados"):
         st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
 
+    # Gera o Excel em memória diretamente (sem função separada)
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        calculations_table.to_excel(writer, index=False, sheet_name='Dados')
+    data_excel = output.getvalue()
+    
+    # Botão de download
+    st.download_button(
+        label="📥 Baixar Excel",
+        data=data_excel,
+        file_name='dados.xlsx',
+        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+
 #Main loop
 submit_button_check = 0
 with st.sidebar:
@@ -178,25 +192,3 @@ with st.sidebar:
 
 if submit_button_check == 1:
     Main()
-
-
-
-#def a_excel(df):
-#    output = BytesIO()
-#    writer = pd.ExcelWriter(output, engine='xlsxwriter')
-#    df.to_excel(writer, index=False, sheet_name='Sheet1')
-#    workbook = writer.book
-#    worksheet = writer.sheets['Sheet1']
-#    format1 = workbook.add_format({'num_format': '0.00'}) 
-#    worksheet.set_column('A:A', None, format1)  
-#    processed_data = output.getvalue()
-#    writer.close()
-#    return processed_data
-
-#vtncu = {1,2,3}
-#aaaaaa = pd.DataFrame(vtncu)
-
-#df_xlsx = a_excel(aaaaaa)
-#st.download_button(label='📥 Download Current Result',
-#                                data=df_xlsx ,
-#                                file_name= 'df_test.xlsx')
