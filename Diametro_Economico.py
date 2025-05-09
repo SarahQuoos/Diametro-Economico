@@ -139,9 +139,11 @@ def Main():
 
     calculations_table = pd.DataFrame(data_table)
     
-    with st.expander("Visualizar Tabela Simplificada de Resultados"):
+    with st.expander("🚀 Visualizar Tabela Simplificada de Resultados"):
         #st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-        st.dataframe(calculations_table.style.format(precision=2, decimal=",", thousands=".").set_properties(**{'text-align': 'center'}).applymap(lambda _: "background-color: LightSkyBlue;", subset=pd.IndexSlice[1, :]))
+        st.dataframe(calculations_table.style.format(precision=2, decimal=",", thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=pd.IndexSlice[1, :]).set_table_styles([
+        {'selector': 'th', 'props': [('text-align', 'center')]},
+        {'selector': 'td', 'props': [('text-align', 'center')]}]))
         
     #Download complete calculations dataframe
     complete_data_table = {'Diâmetro Nominal [mm]': nominal_diameter, 'Diâmetro Interno [mm]': inner_diameter,'Área': area, 'Velocidade[m/s]': speed, 
