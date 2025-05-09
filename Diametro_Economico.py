@@ -142,12 +142,21 @@ def Main():
     with st.expander("🚀 Visualizar Tabela Simplificada de Resultados"):
         #st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
         styled_df = calculations_table.style \
-        .format(precision=2, decimal=",", thousands=".") \
-        .set_properties(**{'text-align': 'center'}) \
-        .set_table_styles([{'selector': 'th', 'props': [('text-align', 'center')]}]) \
-        .applymap(lambda _: "background-color: LightSkyBlue;", subset=pd.IndexSlice[1, :])
-        styled_df
-    
+            .format(precision=2, decimal=",", thousands=".") \
+            .applymap(lambda _: "background-color: LightSkyBlue;") \
+            .set_table_styles([
+                {'selector': 'th', 'props': [('text-align', 'center')]},  # cabeçalhos
+                {'selector': 'td', 'props': [('text-align', 'center')]}   # células
+            ])
+        
+        # Convertendo para HTML com altura fixa
+        html = styled_df.to_html()
+        styled_html = f"""
+        <div style="height:300px; overflow:auto">
+        {html}
+        </div>
+        """
+        st.markdown(styled_html, unsafe_allow_html=True)
        
     #Download complete calculations dataframe
     complete_data_table = {'Diâmetro Nominal [mm]': nominal_diameter, 'Diâmetro Interno [mm]': inner_diameter,'Área': area, 'Velocidade[m/s]': speed, 
