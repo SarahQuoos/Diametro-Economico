@@ -150,12 +150,15 @@ def Main():
             ])
         
         # Converting to HTML
-        html = styled_df.to_html()
-        styled_html = f"""
-        <div style="height:500px; overflow:auto">
-        {html}
-        </div>
-        """
+        #html = styled_df.to_html()
+        #styled_html = f"""
+        #<div style="height:500px; overflow:auto">
+        #{html}
+        #</div>
+        #"""
+        #st.markdown(styled_html, unsafe_allow_html=True)
+
+        styled_html = f"""<div style="height:500px; overflow:auto">{html}</div>"""
         st.markdown(styled_html, unsafe_allow_html=True)
        
     #Download complete calculations dataframe
