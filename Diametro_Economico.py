@@ -133,23 +133,20 @@ def Main():
     
     st.markdown("###") 
     
-    data_table = {'      Diâmetro Nominal [mm]      ': nominal_diameter,'      Perda de Carga Total [m]      ': total_pressure_losses,
-                  '      Potência Requerida [W]      ': required_power,'      Custo de Implantação [R$/m]      ': implementation_cost,
-                  '      Custo de Operação [R$]      ': operation_cost,'      Custo Total [R$]      ': total_cost, '     Custo Total [R$/m]      ': total_cost_meter}
+    data_table = {'Diâmetro Nominal [mm]      ': nominal_diameter,'      Perda de Carga Total [m]      ': total_pressure_losses,
+                  'Potência Requerida [W]      ': required_power,'      Custo de Implantação [R$/m]      ': implementation_cost,
+                  'Custo de Operação [R$]      ': operation_cost,'      Custo Total [R$]      ': total_cost, '     Custo Total [R$/m]      ': total_cost_meter}
 
     calculations_table = pd.DataFrame(data_table)
     
     with st.expander("🚀 Visualizar Tabela Simplificada de Resultados"):
-        #st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
-        styled_df = calculations_table.style \
+        styled_data = calculations_table.style \
             .format(precision=2, decimal=",", thousands=".") \
             .applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))) \
-            .set_table_styles([
-                {'selector': 'th', 'props': [('text-align', 'center')]},
-                {'selector': 'td', 'props': [('text-align', 'center')]}])
+            .set_table_styles([{'selector': 'th', 'props': [('text-align', 'center')]},{'selector': 'td', 'props': [('text-align', 'center')]}])
         
         #Converting to HTML
-        html = styled_df.to_html()
+        html = styled_data.to_html()
         styled_html = f"""
         <div style="height:300px; overflow:auto">
         {html}
