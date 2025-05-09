@@ -176,7 +176,7 @@ def Main():
     data_excel = output.getvalue()
     
     st.download_button(
-        label="📥 Baixar Tabela de Resultados",
+        label="📥 Baixar Tabela Completa de Resultados",
         data=data_excel,
         file_name='Tabela de Resultado Diâmetro Econômico.xlsx',
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
