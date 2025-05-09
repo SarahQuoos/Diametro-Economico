@@ -140,23 +140,30 @@ def Main():
     calculations_table = pd.DataFrame(data_table)
     
     with st.expander("Visualizar Tabela Simplificada de Resultados"):
-        st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+        #st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+        styled_data = st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+        html = styled_data.to_html()
+        styled_html = f"""
+        <div style="height:300px; overflow:auto">
+        {html}
+        </div>
+        """
+        st.markdown(styled_html, unsafe_allow_html=True)
 
     #Download complete calculations dataframe
-
     complete_data_table = {'Diâmetro Nominal [mm]': nominal_diameter, 'Diâmetro Interno [mm]': inner_diameter,'Área': area, 'Velocidade[m/s]': speed, 
                            'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de Carga Distribuída [m]': major_pressure_loss,
-                          'Perda de Carga Localizada [m]': minor_pressure_loss, 'Perda de Carga Total [m]': total_pressure_losses,
-                          'Potência Requerida [W]': required_power, 'Volume de Escavação [m²]': excavation_volume,
-                          'Preço da Escavação [R$/m]': excavation_price_meter,'Volume de Aterro [m²]': dig_volume,
-                          'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora [m²]': bt_volume,'Preço Bota-Fora [R$/m]': bt_price_meter, 
-                          'Nivel de Água [m]': water_level, 'Custo de Montagem [R$/m]': assembly_cost,'Custo Tubulação [R$/m]': pipe_cost, 
-                          'Custo de Implantação [R$/m]': implementation_cost, 'Coeficiente de Atualização da Energia': energy_coefficient,
-                          'Custo de Operação [R$]': operation_cost, 'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
+                           'Perda de Carga Localizada [m]': minor_pressure_loss, 'Perda de Carga Total [m]': total_pressure_losses,
+                           'Potência Requerida [W]': required_power, 'Volume de Escavação [m²]': excavation_volume,
+                           'Preço da Escavação [R$/m]': excavation_price_meter,'Volume de Aterro [m²]': dig_volume,
+                           'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora [m²]': bt_volume,'Preço Bota-Fora [R$/m]': bt_price_meter,
+                           'Nivel de Água [m]': water_level, 'Custo de Montagem [R$/m]': assembly_cost,'Custo Tubulação [R$/m]': pipe_cost, 
+                           'Custo de Implantação [R$/m]': implementation_cost, 'Coeficiente de Atualização da Energia': energy_coefficient,
+                           'Custo de Operação [R$]': operation_cost, 'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
     
     complete_calculations_table = pd.DataFrame(complete_data_table)
-    
     output = BytesIO()
+    
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         complete_calculations_table.to_excel(writer, index=False, sheet_name='Dados')
     data_excel = output.getvalue()
