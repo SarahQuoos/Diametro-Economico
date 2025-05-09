@@ -143,16 +143,16 @@ def Main():
         #st.dataframe(calculations_table.style.format(precision=2,decimal=",",thousands=".").applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
         styled_df = calculations_table.style \
             .format(precision=2, decimal=",", thousands=".") \
-            .applymap(lambda _: "background-color: LightSkyBlue;") \
+            .applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))) \
             .set_table_styles([
-                {'selector': 'th', 'props': [('text-align', 'center')]},  # cabeçalhos
-                {'selector': 'td', 'props': [('text-align', 'center')]}   # células
+                {'selector': 'th', 'props': [('text-align', 'center')]},
+                {'selector': 'td', 'props': [('text-align', 'center')]}
             ])
         
-        # Convertendo para HTML com altura fixa
+        # Converting to HTML
         html = styled_df.to_html()
         styled_html = f"""
-        <div style="height:300px; overflow:auto">
+        <div style="height:500px; overflow:auto">
         {html}
         </div>
         """
