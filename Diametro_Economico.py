@@ -148,14 +148,14 @@ def Main():
                 {'selector': 'th', 'props': [('text-align', 'center')]},
                 {'selector': 'td', 'props': [('text-align', 'center')]}])
         
-            # Converting to HTML
-            html = styled_df.to_html()
-            styled_html = f"""
-            <div style="height:500px; overflow:auto">
-            {html}
-            </div>
-            """
-            st.markdown(styled_html, unsafe_allow_html=True)
+        #Converting to HTML
+        html = styled_df.to_html()
+        styled_html = f"""
+        <div style="height:300px; overflow:auto">
+        {html}
+        </div>
+        """
+        st.markdown(styled_html, unsafe_allow_html=True)
        
     #Download complete calculations dataframe
     complete_data_table = {'Diâmetro Nominal [mm]': nominal_diameter, 'Diâmetro Interno [mm]': inner_diameter,'Área': area, 'Velocidade[m/s]': speed, 
