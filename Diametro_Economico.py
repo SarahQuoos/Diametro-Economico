@@ -158,9 +158,9 @@ def Main():
     complete_data_table = {'Diâmetro Nominal [mm]': nominal_diameter, 'Diâmetro Interno [mm]': inner_diameter,'Área': area, 'Velocidade[m/s]': speed, 
                            'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de Carga Distribuída [m]': major_pressure_loss,
                            'Perda de Carga Localizada [m]': minor_pressure_loss, 'Perda de Carga Total [m]': total_pressure_losses,
-                           'Potência Requerida [W]': required_power, 'Volume de Escavação [m²]': excavation_volume,
-                           'Preço da Escavação [R$/m]': excavation_price_meter,'Volume de Aterro [m²]': dig_volume,
-                           'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora [m²]': bt_volume,'Preço Bota-Fora [R$/m]': bt_price_meter,
+                           'Potência Requerida [W]': required_power, 'Volume de Escavação [m³/m]': excavation_volume,
+                           'Preço da Escavação [R$/m]': excavation_price_meter,'Volume de Aterro [m³/m]': dig_volume,
+                           'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora [m³/m]': bt_volume,'Preço Bota-Fora [R$/m]': bt_price_meter,
                            'Nivel de Água [m]': water_level, 'Custo de Montagem [R$/m]': assembly_cost,'Custo Tubulação [R$/m]': pipe_cost, 
                            'Custo de Implantação [R$/m]': implementation_cost, 'Coeficiente de Atualização da Energia': energy_coefficient,
                            'Custo de Operação [R$]': operation_cost, 'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
