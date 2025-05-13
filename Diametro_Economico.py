@@ -133,22 +133,26 @@ def Main():
     
     st.markdown("###") 
     
-    data_table = {'Diâmetro Nominal': nominal_diameter, 'Diâmetro Interno': inner_diameter,'Área': area, 'Velocidade': speed, 
-                  'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de Carga Distribuída': major_pressure_loss,
-                  'Perda de carga localizada': minor_pressure_loss, 'Perda de Carga Total': total_pressure_losses,
-                  'Potência Requerida': required_power, 'Volume de Escavação': excavation_volume,
-                  'Preço da Escavação [R$/m]': excavation_price_meter,'Volume de Aterro': dig_volume,
-                  'Preço do Aterro [R$/m]':dig_price_meter,'Volume Bota-Fora': bt_volume,'Preço Bota-Fora': bt_price_meter, 
-                  'Nivel Água': water_level, 'Custo de Montagem': assembly_cost,'Custo Tubulação': pipe_cost, 
-                  'Custo de Implantação': implementation_cost, 'Coeficiente de Atualização da Energia': energy_coefficient,
-                  'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter}
+     data_table = {'Diâmetro Nominal [mm]': nominal_diameter,'Perda de Carga Total [m]': total_pressure_losses,
+                  'Potência Requerida [W]': required_power,'Custo de Implantação [R$/m]': implementation_cost,
+                  'Custo de Operação [R$]': operation_cost,'Custo Total [R$]': total_cost, 'Custo Total [R$/m]': total_cost_meter}
 
     calculations_table = pd.DataFrame(data_table)
-    rounded_table = calculations_table.round(2)
-
-    #Calculations table view
-    with st.expander("Visualizar Tabela de Resultados"):
-        st.dataframe(rounded_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
+    
+    with st.expander("🚀 Visualizar Tabela Simplificada de Resultados"):
+        styled_data = calculations_table.style \
+            .format(precision=2, decimal=",", thousands=".") \
+            .applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))) \
+            .set_table_styles([{'selector': 'th', 'props': [('text-align', 'center')]},{'selector': 'td', 'props': [('text-align', 'center')]}])
+        
+        #Converting to HTML
+        html = styled_data.to_html()
+        styled_html = f"""
+        <div style="height:300px; overflow:auto">
+        {html}
+        </div>
+        """
+        st.markdown(styled_html, unsafe_allow_html=True)
         
     #Download complete calculations dataframe
     complete_data_table = {'Diâmetro Nominal [mm]': nominal_diameter, 'Diâmetro Interno [mm]': inner_diameter,'Área': area, 'Velocidade[m/s]': speed, 
