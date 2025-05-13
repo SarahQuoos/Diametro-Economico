@@ -148,8 +148,7 @@ def Main():
     with st.expander("🚀 Visualizar Tabela Simplificada de Resultados"):
         styled_data = calculations_table.style \
             .format(precision=2, decimal=",", thousands=".") \
-            .applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))) \
-            .set_table_styles([{'selector': 'th', 'props': [('text-align', 'center')]},{'selector': 'td', 'props': [('text-align', 'center')]}])
+            .applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None)))
         
         #Converting to HTML
         html = styled_data.to_html()
