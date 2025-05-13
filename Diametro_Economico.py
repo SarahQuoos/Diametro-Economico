@@ -144,21 +144,12 @@ def Main():
                   'Custo de Operação': operation_cost, 'Custo Total do Projeto': total_cost, 'Custo Total por Metro': total_cost_meter}
 
     calculations_table = pd.DataFrame(data_table)
-    
-    with st.expander("🚀 Visualizar Tabela Simplificada de Resultados"):
-        styled_data = calculations_table.style \
-            .format(precision=2, decimal=",", thousands=".") \
-            .applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None)))
+    rounded_table = calculations_table.round(2)
+
+    #Calculations table view
+    with st.expander("Visualizar Tabela de Resultados"):
+        st.dataframe(rounded_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
         
-        #Converting to HTML
-        html = styled_data.to_html()
-        styled_html = f"""
-        <div style="height:300px; overflow:auto">
-        {html}
-        </div>
-        """
-        st.markdown(styled_html, unsafe_allow_html=True)
-       
     #Download complete calculations dataframe
     complete_data_table = {'Diâmetro Nominal [mm]': nominal_diameter, 'Diâmetro Interno [mm]': inner_diameter,'Área': area, 'Velocidade[m/s]': speed, 
                            'Reynolds': reynolds, 'Fator de atrito': f, 'Perda de Carga Distribuída [m]': major_pressure_loss,
