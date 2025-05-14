@@ -126,7 +126,7 @@ def Main():
     
     #Results table
     st.markdown("### Resultado")
-    economic_diameter_format = f"{economic_diameter:,.2f}mm".replace(",", "X").replace(".", ",").replace("X", ".")
+    economic_diameter_format = f"{economic_diameter:,}mm".replace(",", "X").replace(".", ",").replace("X", ".")
 
     tab1, tab2 = st.columns(2)
     tab1.metric(label="Diâmetro Econômico", value=economic_diameter_format)
