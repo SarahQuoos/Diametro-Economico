@@ -126,12 +126,14 @@ def Main():
     
     #Results table
     st.markdown("### Resultado")
+    
     economic_diameter_format = f"{economic_diameter:,}mm".replace(",", "X").replace(".", ",").replace("X", ".")
+    economic_total_cost_meter_format = f"R${economic_total_cost_meter:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
     tab1, tab2 = st.columns(2)
     tab1.metric(label="Diâmetro Econômico", value=economic_diameter_format)
-    #tab1.metric(label="Diâmetro Econômico ", value=f"{'{:,} mm'.format(economic_diameter)} ",)
-    tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R$ {:,.2f}'.format(economic_total_cost_meter)} ",)
+    #tab2.metric(label="Custo Total Estimado por Metro", value=f"{'R$ {:,.2f}'.format(economic_total_cost_meter)} ",)
+    tab2.metric(label="Custo Total Estimado por Metro", value=economic_total_cost_meter_format)
     
     st.markdown("###") 
     
