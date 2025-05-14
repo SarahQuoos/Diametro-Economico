@@ -15,7 +15,7 @@ st.set_page_config(
         'About': "# Desenvolvido por Sarah Quoos e Edgar Silva. UTFPR, Curitiba, PR, 2025"}
     )
 
-st.title("Dimensionamento de Diâmetro Econômico")
+st.title("Dimensionamento de Diâmetro Econômico para Adutoras de Água")
 
 def Main():
     #Access database
