@@ -170,6 +170,10 @@ def Main():
     
     complete_calculations_table = pd.DataFrame(complete_data_table)
     output = BytesIO()
+
+    #########Calculations table view
+    with st.expander("Visualizar Tabela de Resultados"):
+        st.dataframe(complete_calculations_table.style.applymap(lambda _: "background-color: LightSkyBlue;", subset=([aux], slice(None))))
     
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         complete_calculations_table.to_excel(writer, index=False, sheet_name='Dados')
