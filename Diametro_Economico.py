@@ -12,9 +12,9 @@ st.set_page_config(
     initial_sidebar_state="expanded",
     menu_items={
         'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# Desenvolvido por Sarah Quoos e Edgar Silva \
-                    Curitiba/PR, 2025 \
-                    Entre em contato \
+        'About': "# Desenvolvido por Sarah Quoos e Edgar Silva. \
+                    Curitiba/PR, 2025. \
+                    Entre em contato: \
                     sarahquoos@alunos.utfpr.edu.br \
                     edgarsilva@alunos.utfpr.edu.br"})
         
