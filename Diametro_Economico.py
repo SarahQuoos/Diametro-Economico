@@ -12,10 +12,12 @@ st.set_page_config(
     initial_sidebar_state="expanded",
     menu_items={
         'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# Projeto de TCC desenvolvido por Sarah Quoos e Edgar Silva. UTFPR, Curitiba,PR, 2025 \
-                       # Entre em contato através dos nosso e-mail: sarahquoos@alunos.utfpr.edu.br e edgarsilva@alunos.utfpr.edu.br"}
-)
-
+        'About': "# Projeto de TCC desenvolvido por Sarah Quoos e Edgar Silva \
+                    UTFPR, Curitiba,PR, 2025 \
+                    Entre em contato \
+                    sarahquoos@alunos.utfpr.edu.br \
+                    edgarsilva@alunos.utfpr.edu.br"})
+        
 st.title("Dimensionamento de Diâmetro Econômico para Adutoras de Água")
 
 def Main():
